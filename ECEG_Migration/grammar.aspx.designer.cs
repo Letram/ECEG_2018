@@ -13,24 +13,6 @@ namespace ECEG_Migration {
     public partial class grammar {
         
         /// <summary>
-        /// Control query_grammar_id.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.AccessDataSource query_grammar_id;
-        
-        /// <summary>
-        /// Control grammar_id_label.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label grammar_id_label;
-        
-        /// <summary>
         /// Control table_item.
         /// </summary>
         /// <remarks>
@@ -38,5 +20,32 @@ namespace ECEG_Migration {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Table table_item;
+        
+        /// <summary>
+        /// Control btn_prev.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton btn_prev;
+        
+        /// <summary>
+        /// Control grammar_page_counter.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl grammar_page_counter;
+        
+        /// <summary>
+        /// Control btn_forw.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton btn_forw;
     }
 }

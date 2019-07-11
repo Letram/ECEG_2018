@@ -8,6 +8,7 @@
         DataSourceID="query_AllGrammars" 
         ShowHeader="true" 
         AllowPaging="true" 
+        PageSize="10"
         AutoGenerateColumns="false"  
         AutoGenerateSelectButton="false"
         GridLines="None"
@@ -17,12 +18,11 @@
         OnRowDataBound="table_AllGrammars_RowDataBound"
         OnRowCommand="table_AllGrammars_RowCommand">
         <Columns>
-            <asp:BoundField DataField="id"        HeaderText="ID"                                        />
+            <asp:BoundField DataField="id"        HeaderText="ID"                  ItemStyle-Width="5%"  />
             <asp:BoundField DataField="yearP"     HeaderText="Publication year"    ItemStyle-Width="15%" />
-            <asp:BoundField DataField="Edition"   HeaderText="Edition"             ItemStyle-Width="15%" />
+            <asp:BoundField DataField="Edition"   HeaderText="Edition"             ItemStyle-Width="10%" />
             <asp:BoundField DataField="Title"     HeaderText="Title"               ItemStyle-Width="70%" />
-            <asp:CommandField ButtonType="Link" ShowSelectButton="true" SelectText="Seleccionar" ItemStyle-CssClass="btn"/>
+            <asp:CommandField ButtonType="Link"   ShowSelectButton="true"          SelectText="Seleccionar" ItemStyle-CssClass="btn"/>
         </Columns>
     </asp:GridView>
-    <asp:Label ID="label_crema" runat="server">aldkfjhslkdfjh</asp:Label>
 </asp:Content>
