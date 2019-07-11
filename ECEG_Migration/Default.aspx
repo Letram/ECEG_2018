@@ -9,20 +9,20 @@
         ShowHeader="true" 
         AllowPaging="true" 
         AutoGenerateColumns="false"  
-        AutoGenerateSelectButton="true"
+        AutoGenerateSelectButton="false"
         GridLines="None"
         Width="100%" 
         EmptyDataText="Data not available..."
-        CssClass="table table-bordered table-responsive all_grammar_table"
+        CssClass="table table-responsive all_grammar_table"
         OnRowDataBound="table_AllGrammars_RowDataBound"
-        OnRowCommand="table_AllGrammars_RowCommand" OnSelectedIndexChanged="table_AllGrammars_SelectedIndexChanged">
+        OnRowCommand="table_AllGrammars_RowCommand">
         <Columns>
-            <asp:BoundField DataField="id"     HeaderText="ID"    ItemStyle-Width="0%" />
+            <asp:BoundField DataField="id"        HeaderText="ID"                                        />
             <asp:BoundField DataField="yearP"     HeaderText="Publication year"    ItemStyle-Width="15%" />
             <asp:BoundField DataField="Edition"   HeaderText="Edition"             ItemStyle-Width="15%" />
             <asp:BoundField DataField="Title"     HeaderText="Title"               ItemStyle-Width="70%" />
-            <%--<asp:CommandField ButtonType="Link" ShowSelectButton="true" SelectText="Seleccionar" ItemStyle-CssClass="btn"/>--%>
+            <asp:CommandField ButtonType="Link" ShowSelectButton="true" SelectText="Seleccionar" ItemStyle-CssClass="btn"/>
         </Columns>
     </asp:GridView>
-    <asp:Label ID="Labelcrema" runat="server">aldkfjhslkdfjh</asp:Label>
+    <asp:Label ID="label_crema" runat="server">aldkfjhslkdfjh</asp:Label>
 </asp:Content>

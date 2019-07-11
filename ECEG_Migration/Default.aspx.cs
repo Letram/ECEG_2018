@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Collections;
 
 namespace ECEG_Migration
 {
@@ -12,7 +13,6 @@ namespace ECEG_Migration
     {
         //readonly string connectionString = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source = C:\Users\User\source\repos\ECEG_Migration\App_Data\ECEG_2018.mdb";
         readonly string connectionString = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source = " + HttpContext.Current.Server.MapPath("~/App_Data") + @"\ECEG_2018.mdb;";
-        private int clickCount = 0;
         protected void Page_Load(object sender, EventArgs e)
         {
             using (OleDbConnection dbConnection = new OleDbConnection(connectionString))
@@ -53,12 +53,10 @@ namespace ECEG_Migration
         protected void table_AllGrammars_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName != "Select") return;
+            int rowIndex = Convert.ToInt32(e.CommandArgument);
+            int grammarIndex = Convert.ToInt32(table_AllGrammars.Rows[rowIndex].Cells[0].Text);
+            Response.Redirect("grammar.aspx?grammar=" + grammarIndex.ToString());
         }
 
-        protected void table_AllGrammars_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            GridViewRow row = table_AllGrammars.SelectedRow;
-            Labelcrema.Text = "Row with ID " + row.Cells[0] + " was selected.";
-        }
     }
 }
