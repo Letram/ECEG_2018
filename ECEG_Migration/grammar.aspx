@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="grammar.aspx.cs" Inherits="ECEG_Migration.grammar" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <asp:Table ID="table_item" runat="server" CssClass="table">
-        <asp:TableRow>
+<%--        <asp:TableRow>
             <asp:TableCell></asp:TableCell>
             <asp:TableCell></asp:TableCell>
             <asp:TableCell></asp:TableCell>
@@ -12,6 +12,16 @@
             <asp:TableCell></asp:TableCell>
             <asp:TableCell></asp:TableCell>
             <asp:TableCell></asp:TableCell>
+            <asp:TableCell></asp:TableCell>
+            <asp:TableCell></asp:TableCell>
+            <asp:TableCell></asp:TableCell>
+            <asp:TableCell></asp:TableCell>
+            <asp:TableCell></asp:TableCell>
+            <asp:TableCell></asp:TableCell>
+            <asp:TableCell></asp:TableCell>
+            <asp:TableCell></asp:TableCell>
+        </asp:TableRow>--%>
+        <asp:TableRow Width="100%">
             <asp:TableCell></asp:TableCell>
             <asp:TableCell></asp:TableCell>
             <asp:TableCell></asp:TableCell>

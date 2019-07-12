@@ -2,7 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <asp:AccessDataSource ID="query_AllGrammars" runat="server" DataFile="~/App_Data/ECEG_2018.mdb" 
-    SelectCommand = "SELECT Grammar as id, YearP, Edition, Title from Grammars ORDER BY YearP, Edition"></asp:AccessDataSource>
+    SelectCommand = "SELECT Grammar as id, YearP, Edition, Title from Grammars ORDER BY Grammar, YearP, Edition"></asp:AccessDataSource>
 
     <asp:GridView ID="table_AllGrammars" runat="server"
         DataSourceID="query_AllGrammars" 
