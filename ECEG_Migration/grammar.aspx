@@ -1,29 +1,21 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="grammar.aspx.cs" Inherits="ECEG_Migration.grammar" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <asp:Table ID="table_item" runat="server" CssClass="table">
-<%--        <asp:TableRow>
-            <asp:TableCell></asp:TableCell>
-            <asp:TableCell></asp:TableCell>
-            <asp:TableCell></asp:TableCell>
-            <asp:TableCell></asp:TableCell>
-            <asp:TableCell></asp:TableCell>
-            <asp:TableCell></asp:TableCell>
-            <asp:TableCell></asp:TableCell>
-            <asp:TableCell></asp:TableCell>
-            <asp:TableCell></asp:TableCell>
-            <asp:TableCell></asp:TableCell>
-            <asp:TableCell></asp:TableCell>
-            <asp:TableCell></asp:TableCell>
-            <asp:TableCell></asp:TableCell>
-            <asp:TableCell></asp:TableCell>
-            <asp:TableCell></asp:TableCell>
-            <asp:TableCell></asp:TableCell>
-            <asp:TableCell></asp:TableCell>
-            <asp:TableCell></asp:TableCell>
-        </asp:TableRow>--%>
+    <label>AUTHOR</label>
+    <asp:Table ID="table_author" runat="server" CssClass="table">
         <asp:TableRow Width="100%">
             <asp:TableCell></asp:TableCell>
             <asp:TableCell></asp:TableCell>
+            <asp:TableCell></asp:TableCell>
+            <asp:TableCell></asp:TableCell>
+            <asp:TableCell></asp:TableCell>
+            <asp:TableCell></asp:TableCell>
+        </asp:TableRow>
+    </asp:Table>
+    <label>OCCUPATION</label>
+    <asp:Table runat="server" ID="table_occupation" CssClass="table"></asp:Table>
+    <label>IMPRINT</label>
+    <asp:Table runat="server" ID="table_imprint" CssClass="table">
+        <asp:TableRow Width="100%">
             <asp:TableCell></asp:TableCell>
             <asp:TableCell></asp:TableCell>
             <asp:TableCell></asp:TableCell>

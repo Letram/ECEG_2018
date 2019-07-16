@@ -13,13 +13,31 @@ namespace ECEG_Migration {
     public partial class grammar {
         
         /// <summary>
-        /// Control table_item.
+        /// Control table_author.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table table_item;
+        protected global::System.Web.UI.WebControls.Table table_author;
+        
+        /// <summary>
+        /// Control table_occupation.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table table_occupation;
+        
+        /// <summary>
+        /// Control table_imprint.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table table_imprint;
         
         /// <summary>
         /// Control btn_prev.

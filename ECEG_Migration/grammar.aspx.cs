@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECEG_Migration.Models;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.OleDb;
@@ -20,58 +21,58 @@ namespace ECEG_Migration
                 Session["grammar_id"] = "";
                 Session["grammar_ids"] = "";
                 queryString = "";
-
+                String grammarId = "1";
+                try
+                {
+                    Session["grammar_id"] = Request.QueryString["grammar"];
+                    grammarId = Session["grammar_id"].ToString();
+                }
+                catch (Exception ex)
+                {
+                    Response.Redirect("/");
+                }
                 Session["grammar_id"] = Request.QueryString["grammar"];
 
-                String grammarId = Session["grammar_id"].ToString();
+                grammarId = Session["grammar_id"].ToString();
+
+                Author au = DbManager.GetAuthorDataFromGrammar(grammarId);
+
+                table_author.Rows[0].Cells[0].Text = au.Name;
+                table_author.Rows[0].Cells[1].Text = au.Gender;
+                table_author.Rows[0].Cells[2].Text = au.Biographical_details;
+                table_author.Rows[0].Cells[3].Text = au.City_name;
+                table_author.Rows[0].Cells[4].Text = au.County_name;
+                table_author.Rows[0].Cells[5].Text = au.Country_name;
+
+                foreach(Occupation authorOcc in au.Occupations)
+                {
+                    TableRow row = new TableRow();
+                    TableCell topic_cell = new TableCell();
+                    TableCell details_cell = new TableCell();
+
+                    topic_cell.Text = authorOcc.Topic_name;
+                    details_cell.Text = authorOcc.Details;
+
+                    row.Cells.Add(topic_cell);
+                    row.Cells.Add(details_cell);
+                    table_occupation.Rows.Add(row);
+                }
+
+                Imprint im = DbManager.GetImprintDataFromGrammar(grammarId);
+
+                table_imprint.Rows[0].Cells[0].Text = im.City_name;
+                table_imprint.Rows[0].Cells[1].Text = im.County_name;
+                table_imprint.Rows[0].Cells[2].Text = im.Country_name;
+                table_imprint.Rows[0].Cells[3].Text = im.Printers;
+                table_imprint.Rows[0].Cells[4].Text = im.Booksellers;
+                table_imprint.Rows[0].Cells[5].Text = im.Description;
+
                 using (OleDbConnection dbConnection = new OleDbConnection(connectionString))
                 {
                     dbConnection.Open();
-                   
-                    /*
-                    OleDbCommand query = new OleDbCommand("SELECT * FROM grammars WHERE Grammar=" + grammarId, dbConnection);
+
+                    OleDbCommand query = new OleDbCommand("SELECT grammar FROM grammars ORDER BY grammar ASC", dbConnection);
                     OleDbDataReader reader = query.ExecuteReader();
-
-                    if (reader.Read())
-                    {
-                        //Informacion sin hacer los joins
-                        table_item.Rows[0].Cells[0].Text = reader["BD"].ToString();
-                        table_item.Rows[0].Cells[1].Text = reader["Grammar"].ToString();
-                        table_item.Rows[0].Cells[2].Text = reader["YearP"].ToString();
-                        table_item.Rows[0].Cells[3].Text = reader["Edition"].ToString();
-                        table_item.Rows[0].Cells[4].Text = reader["Author_id"].ToString();
-                        table_item.Rows[0].Cells[5].Text = reader["Title"].ToString();
-                        table_item.Rows[0].Cells[6].Text = reader["Type_work"].ToString();
-                        table_item.Rows[0].Cells[7].Text = reader["Comments"].ToString();
-                        table_item.Rows[0].Cells[8].Text = reader["Division_Grammar"].ToString();
-                        table_item.Rows[0].Cells[9].Text = reader["Printers"].ToString();
-                        table_item.Rows[0].Cells[10].Text = reader["BookSellers"].ToString();
-                        table_item.Rows[0].Cells[11].Text = reader["Price"].ToString();
-                        table_item.Rows[0].Cells[12].Text = reader["Target_Audience_Age"].ToString();
-                        table_item.Rows[0].Cells[13].Text = reader["Target_Audience_Gender"].ToString();
-                        table_item.Rows[0].Cells[14].Text = reader["Target_Audience_Instruction"].ToString();
-                        table_item.Rows[0].Cells[15].Text = reader["Target_Audience_SP"].ToString();
-                        table_item.Rows[0].Cells[16].Text = reader["Physical_Description"].ToString();
-                        table_item.Rows[0].Cells[17].Text = reader["Bibliographical_References"].ToString();
-                    }
-                    */
-
-                    queryString= "SELECT author_name, gender_text, bio, City, County, Country FROM((((authors INNER JOIN Grammars ON Grammars.Author_id = authors.author_id) INNER JOIN authors_gender ON authors.gender = Authors_Gender.gender_id) INNER JOIN Cities ON authors.PoB_city = Cities.City_Id) INNER JOIN Counties ON authors.PoB_county = Counties.County_Id) INNER JOIN Country ON authors.PoB_country = Country.Country_Id WHERE Grammars.Grammar = " + grammarId;
-                    OleDbCommand query = new OleDbCommand(queryString, dbConnection);
-                    OleDbDataReader reader = query.ExecuteReader();
-
-                    if(reader.Read()){
-                        
-                        table_item.Rows[0].Cells[0].Text = reader["author_name"].ToString();
-                        table_item.Rows[0].Cells[1].Text = reader["gender_text"].ToString();
-                        table_item.Rows[0].Cells[2].Text = reader["bio"].ToString();
-                        table_item.Rows[0].Cells[3].Text = reader["City"].ToString();
-                        table_item.Rows[0].Cells[4].Text = reader["County"].ToString();
-                        table_item.Rows[0].Cells[5].Text = reader["Country"].ToString();                        
-                    }
-
-                    query = new OleDbCommand("SELECT grammar FROM grammars ORDER BY grammar ASC", dbConnection);
-                    reader = query.ExecuteReader();
 
                     while (reader.Read())
                     {
@@ -83,12 +84,12 @@ namespace ECEG_Migration
 
                     grammar_page_counter.InnerText = (Array.IndexOf(grammarArr, grammarId) + 1) + " of " + grammarArr.Length;
 
-                    chech_position(Array.IndexOf(grammarArr, grammarId), grammarArr);
+                    checkPosition(Array.IndexOf(grammarArr, grammarId), grammarArr);
                 }
             }
         }
 
-        private void chech_position(int v, String[] arr)
+        private void checkPosition(int v, String[] arr)
         {
             if(v == 0)
                 btn_prev.Visible = false;
