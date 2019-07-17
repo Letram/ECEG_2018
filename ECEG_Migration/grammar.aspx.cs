@@ -99,6 +99,31 @@ namespace ECEG_Migration
 
                     table_libraries.Rows.Add(row);
                 }
+
+                TypeOfWork tow = DbManager.GetTypeOfWorkFromGrammar(grammarId);
+                GrammaticalCategory gc = DbManager.GetGrammaticalCategoryFromGrammar(grammarId);
+
+                table_work_types.Rows[0].Cells[0].Text = tow.Code;
+                table_work_types.Rows[0].Cells[1].Text = tow.Type_description;
+                table_work_types.Rows[1].Cells[0].Text = gc.Category_id.ToString();
+                table_work_types.Rows[1].Cells[1].Text = gc.Category_name;
+
+                SubsidiaryContent[] subsidiaryContents = DbManager.GetSubsidiaryContentsFromGrammar(grammarId);
+
+                foreach (SubsidiaryContent content in subsidiaryContents)
+                {
+                    TableRow row = new TableRow();
+                    TableCell sub_content_id = new TableCell();
+                    TableCell sub_content_name = new TableCell();
+
+                    sub_content_id.Text = content.Sub_content_id.ToString();
+                    sub_content_name.Text = content.Sub_content_name;
+
+                    row.Cells.Add(sub_content_id);
+                    row.Cells.Add(sub_content_name);
+
+                    table_sub_content.Rows.Add(row);
+                }
                 using (OleDbConnection dbConnection = new OleDbConnection(connectionString))
                 {
                     dbConnection.Open();

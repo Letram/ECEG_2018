@@ -26,8 +26,21 @@
     </asp:Table>
     <label>REFERENCE SOURCES</label>
     <asp:Table runat="server" ID="table_references" CssClass="table"></asp:Table>
-    <label>REFERENCE SOURCES</label>
+    <label>HOLDING LIBRARIES</label>
     <asp:Table runat="server" ID="table_libraries" CssClass="table"></asp:Table>
+    <label>WORK TYPE AND DIVISION</label>
+    <asp:Table runat="server" ID="table_work_types" CssClass="table">
+        <asp:TableRow>
+            <asp:TableCell></asp:TableCell>
+            <asp:TableCell></asp:TableCell>
+        </asp:TableRow>
+        <asp:TableRow>
+            <asp:TableCell></asp:TableCell>
+            <asp:TableCell></asp:TableCell>
+        </asp:TableRow>
+    </asp:Table>
+    <label>SUBSIDIARY CONTENT</label>
+    <asp:Table runat="server" ID="table_sub_content" CssClass="table"></asp:Table>
     <div class="row">
         <button runat="server" id="btn_prev" class="btn btn_direction" onserverclick="btn_prev_ServerClick">
             <i class="fas fa-chevron-left fa-9x"></i>

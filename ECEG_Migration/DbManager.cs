@@ -267,5 +267,81 @@ namespace ECEG_Migration
 
             return (Library[])libraries.ToArray(typeof(Library));
         }
+
+        public static TypeOfWork GetTypeOfWorkFromGrammar(string grammarId)
+        {
+            TypeOfWork res = new TypeOfWork();
+
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                OleDbCommand query = new OleDbCommand("SELECT Grammar, Description, tw.Type_Work as work_id FROM Grammars g INNER JOIN Type_Work tw ON tw.Type_Work = g.Type_Work WHERE g.Grammar = ?", connection);
+                OleDbParameter param_grammar = query.CreateParameter();
+                param_grammar.Value = grammarId;
+                query.Parameters.Add(param_grammar);
+
+                OleDbDataReader reader = query.ExecuteReader();
+                if (reader.Read())
+                {
+                    res.Code = reader["work_id"].ToString();
+                    res.Type_description = reader["Description"].ToString();
+                }
+            }
+            return res;
+        }
+
+        public static GrammaticalCategory GetGrammaticalCategoryFromGrammar(string grammarId)
+        {
+            GrammaticalCategory res = new GrammaticalCategory();
+
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                OleDbCommand query = new OleDbCommand("SELECT Grammar, Division, group as cat_id FROM Grammars g INNER JOIN Divisions_Grammar dg ON dg.group = g.Division_Grammar WHERE g.Grammar = ?", connection);
+                OleDbParameter param_grammar = query.CreateParameter();
+                param_grammar.Value = grammarId;
+                query.Parameters.Add(param_grammar);
+
+                OleDbDataReader reader = query.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    res.Category_id = Convert.ToInt32(reader["cat_id"]);
+                    res.Category_name = reader["Division"].ToString();
+                }
+            }
+            return res;
+        }
+
+        public static SubsidiaryContent[] GetSubsidiaryContentsFromGrammar(string grammarId)
+        {
+            ArrayList subsidiaryContents = new ArrayList();
+
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                OleDbCommand query = new OleDbCommand("SELECT Grammars.Grammar, sc.Sub_contents, Sub_Contents_Id as sub_id FROM Grammars INNER JOIN (Grammar_Subsidiary_Contents gsc INNER JOIN Subsidiary_Contents sc ON gsc.Sub_contents = sc.Sub_contents_Id) ON Grammars.Grammar = gsc.Grammar WHERE Grammars.Grammar = ?", connection);
+                OleDbParameter param_grammar = query.CreateParameter();
+                param_grammar.Value = grammarId;
+                query.Parameters.Add(param_grammar);
+
+                OleDbDataReader reader = query.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    SubsidiaryContent newSC = new SubsidiaryContent();
+
+                    newSC.Sub_content_id = Convert.ToInt32(reader["sub_id"]);
+                    newSC.Sub_content_name = reader["Sub_contents"].ToString();
+
+                    subsidiaryContents.Add(newSC);
+                }
+            }
+
+            return (SubsidiaryContent[])subsidiaryContents.ToArray(typeof(SubsidiaryContent));
+        }
     }
 }
