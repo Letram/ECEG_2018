@@ -40,6 +40,24 @@ namespace ECEG_Migration {
         protected global::System.Web.UI.WebControls.Table table_imprint;
         
         /// <summary>
+        /// Control table_references.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table table_references;
+        
+        /// <summary>
+        /// Control table_libraries.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table table_libraries;
+        
+        /// <summary>
         /// Control btn_prev.
         /// </summary>
         /// <remarks>

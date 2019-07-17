@@ -24,6 +24,10 @@
             <asp:TableCell></asp:TableCell>
         </asp:TableRow>
     </asp:Table>
+    <label>REFERENCE SOURCES</label>
+    <asp:Table runat="server" ID="table_references" CssClass="table"></asp:Table>
+    <label>REFERENCE SOURCES</label>
+    <asp:Table runat="server" ID="table_libraries" CssClass="table"></asp:Table>
     <div class="row">
         <button runat="server" id="btn_prev" class="btn btn_direction" onserverclick="btn_prev_ServerClick">
             <i class="fas fa-chevron-left fa-9x"></i>

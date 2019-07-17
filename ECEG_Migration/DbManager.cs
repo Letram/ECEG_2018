@@ -210,5 +210,62 @@ namespace ECEG_Migration
 
             return res;
         }
+
+        public static Reference[] GetReferenceDataFromGrammar(string grammarId)
+        {
+            ArrayList references = new ArrayList();
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                OleDbCommand query = new OleDbCommand("SELECT Grammars.Grammar, Also_In.Also_In as ref_id, Desciption_Also_In as description, [Agrupación] as group_id FROM Grammars INNER JOIN(Grammars_Also_In INNER JOIN Also_In ON Grammars_Also_In.Also_In = Also_In.Also_In) ON Grammars.Grammar = Grammars_Also_In.Grammar WHERE Grammars.Grammar = ?", connection);
+                OleDbParameter param_grammar = query.CreateParameter();
+                param_grammar.Value = grammarId;
+                query.Parameters.Add(param_grammar);
+
+                OleDbDataReader reader = query.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Reference newRef = new Reference();
+
+                    newRef.Reference_id = Convert.ToInt32(reader["ref_id"]);
+                    newRef.Group = Convert.ToInt32(reader["group_id"]);
+                    newRef.Description = reader["description"].ToString();
+
+                    references.Add(newRef);
+                }
+            }
+            return (Reference[])references.ToArray(typeof(Reference));
+        }
+
+        public static Library[] GetHoldingLibrariesFromGrammar(string grammarId)
+        {
+            ArrayList libraries = new ArrayList();
+
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                OleDbCommand query = new OleDbCommand("SELECT Grammars.Grammar, hl.Description as lib_desc, hl.Library as code FROM Grammars INNER JOIN( Grammars_Holding_Libraries ghl INNER JOIN Holding_Libraries hl ON ghl.Library = hl.Library ) ON Grammars.Grammar = ghl.Grammar WHERE Grammars.Grammar = ? ", connection);
+                OleDbParameter param_grammar = query.CreateParameter();
+                param_grammar.Value = grammarId;
+                query.Parameters.Add(param_grammar);
+
+                OleDbDataReader reader = query.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Library newLib = new Library();
+
+                    newLib.Code = reader["code"].ToString();
+                    newLib.Library_name = reader["lib_desc"].ToString();
+
+                    libraries.Add(newLib);
+                }
+            }
+
+            return (Library[])libraries.ToArray(typeof(Library));
+        }
     }
 }

@@ -212,6 +212,8 @@
     </Compile>
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\City.cs" />
+    <Compile Include="Models\Library.cs" />
+    <Compile Include="Models\Reference.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\County.cs" />
     <Compile Include="Models\Imprint.cs" />

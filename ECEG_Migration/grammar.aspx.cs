@@ -31,8 +31,8 @@ namespace ECEG_Migration
                 {
                     Response.Redirect("/");
                 }
-                Session["grammar_id"] = Request.QueryString["grammar"];
 
+                Session["grammar_id"] = Request.QueryString["grammar"];
                 grammarId = Session["grammar_id"].ToString();
 
                 Author au = DbManager.GetAuthorDataFromGrammar(grammarId);
@@ -67,6 +67,38 @@ namespace ECEG_Migration
                 table_imprint.Rows[0].Cells[4].Text = im.Booksellers;
                 table_imprint.Rows[0].Cells[5].Text = im.Description;
 
+                Reference[] references = DbManager.GetReferenceDataFromGrammar(grammarId);
+
+                foreach (Reference reference in references)
+                {
+                    TableRow row = new TableRow();
+                    TableCell reference_id_cell = new TableCell();
+                    TableCell description_cell = new TableCell();
+
+                    reference_id_cell.Text = reference.Reference_id.ToString();
+                    description_cell.Text = reference.Description;
+
+                    row.Cells.Add(reference_id_cell);
+                    row.Cells.Add(description_cell);
+                    table_references.Rows.Add(row);
+                }
+
+                Library[] libraries = DbManager.GetHoldingLibrariesFromGrammar(grammarId);
+
+                foreach (Library lib in libraries)
+                {
+                    TableRow row = new TableRow();
+                    TableCell library_name_cell = new TableCell();
+                    TableCell library_code_cell = new TableCell();
+
+                    library_code_cell.Text = lib.Code;
+                    library_name_cell.Text = lib.Library_name;
+
+                    row.Cells.Add(library_code_cell);
+                    row.Cells.Add(library_name_cell);
+
+                    table_libraries.Rows.Add(row);
+                }
                 using (OleDbConnection dbConnection = new OleDbConnection(connectionString))
                 {
                     dbConnection.Open();
