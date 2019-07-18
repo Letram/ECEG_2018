@@ -13,6 +13,24 @@ namespace ECEG_Migration {
     public partial class Default {
         
         /// <summary>
+        /// Control query_AllYears.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.AccessDataSource query_AllYears;
+        
+        /// <summary>
+        /// Control dropdown_year.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList dropdown_year;
+        
+        /// <summary>
         /// Control query_AllGrammars.
         /// </summary>
         /// <remarks>

@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.OleDb;
 using System.Linq;
 using System.Web;
@@ -405,6 +406,21 @@ namespace ECEG_Migration
                 }
             }
             return (age, gender, instruction, sp);
+        }
+
+        public static DataSet GetAllYears()
+        {
+            DataSet yearSet = new DataSet();
+
+            using (OleDbConnection con = new OleDbConnection(connectionString))
+            {
+                //Open Database Connection
+                OleDbDataAdapter da = new OleDbDataAdapter("SELECT YearP FROM Grammars ORDER BY YearP", con);
+
+                //Fill the DataSet
+                da.Fill(yearSet);
+            }
+            return yearSet;
         }
     }
 }

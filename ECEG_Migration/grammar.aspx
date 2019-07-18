@@ -50,6 +50,8 @@
             <asp:TableCell></asp:TableCell>
         </asp:TableRow>
     </asp:Table>
+    <label>COMMENTS</label><br />
+    <asp:Label runat="server" ID="label_comments"></asp:Label>
     <div class="row">
         <button runat="server" id="btn_prev" class="btn btn_direction" onserverclick="btn_prev_ServerClick">
             <i class="fas fa-chevron-left fa-9x"></i>

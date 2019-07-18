@@ -39,10 +39,9 @@ namespace ECEG_Migration
 
                 Grammar grammar = new Grammar(grammarId);
 
-                Debug.WriteLine(new JavaScriptSerializer().Serialize(grammar));
-                Console.WriteLine(new JavaScriptSerializer().Serialize(grammar));
+                //Debug.WriteLine(new JavaScriptSerializer().Serialize(grammar));
 
-                Author au = DbManager.GetAuthorDataFromGrammar(grammarId);
+                Author au = grammar.GrammarAuthor;
 
                 table_author.Rows[0].Cells[0].Text = au.Name;
                 table_author.Rows[0].Cells[1].Text = au.Gender;
@@ -65,7 +64,7 @@ namespace ECEG_Migration
                     table_occupation.Rows.Add(row);
                 }
 
-                Imprint im = DbManager.GetImprintDataFromGrammar(grammarId);
+                Imprint im = grammar.GrammarImprint;
 
                 table_imprint.Rows[0].Cells[0].Text = im.City_name;
                 table_imprint.Rows[0].Cells[1].Text = im.County_name;
@@ -74,7 +73,7 @@ namespace ECEG_Migration
                 table_imprint.Rows[0].Cells[4].Text = im.Booksellers;
                 table_imprint.Rows[0].Cells[5].Text = im.Description;
 
-                Reference[] references = DbManager.GetReferenceDataFromGrammar(grammarId);
+                Reference[] references = grammar.GrammarReferences;
 
                 foreach (Reference reference in references)
                 {
@@ -90,7 +89,7 @@ namespace ECEG_Migration
                     table_references.Rows.Add(row);
                 }
 
-                Library[] libraries = DbManager.GetHoldingLibrariesFromGrammar(grammarId);
+                Library[] libraries = grammar.GrammarHoldingLibraries;
 
                 foreach (Library lib in libraries)
                 {
@@ -107,15 +106,15 @@ namespace ECEG_Migration
                     table_libraries.Rows.Add(row);
                 }
 
-                TypeOfWork tow = DbManager.GetTypeOfWorkFromGrammar(grammarId);
-                GrammaticalCategory gc = DbManager.GetGrammaticalCategoryFromGrammar(grammarId);
+                TypeOfWork tow = grammar.GrammarTypeOfWork;
+                GrammaticalCategory gc = grammar.GrammarGrammaticalCategory;
 
                 table_work_types.Rows[0].Cells[0].Text = tow.Code;
                 table_work_types.Rows[0].Cells[1].Text = tow.Type_description;
                 table_work_types.Rows[1].Cells[0].Text = gc.Category_id.ToString();
                 table_work_types.Rows[1].Cells[1].Text = gc.Category_name;
 
-                SubsidiaryContent[] subsidiaryContents = DbManager.GetSubsidiaryContentsFromGrammar(grammarId);
+                SubsidiaryContent[] subsidiaryContents = grammar.GrammarSubsidiaryContents;
 
                 foreach (SubsidiaryContent content in subsidiaryContents)
                 {
@@ -132,12 +131,14 @@ namespace ECEG_Migration
                     table_sub_content.Rows.Add(row);
                 }
 
-                var (tAge, tGender, tIns, tSP) = DbManager.GetAudienceCriteriasFromGrammar(grammarId);
+                var (tAge, tGender, tIns, tSP) = (grammar.GrammarTargetAge, grammar.GrammarTargetGender, grammar.GrammarTargetInstruction, grammar.GrammarTargetSP);
 
                 table_audience.Rows[0].Cells[0].Text = tAge.AudienceName;
                 table_audience.Rows[0].Cells[1].Text = tGender.AudienceName;
                 table_audience.Rows[0].Cells[2].Text = tIns.AudienceName;
                 table_audience.Rows[0].Cells[3].Text = tSP.AudienceName;
+
+                label_comments.Text = grammar.GrammarCommments;
 
                 using (OleDbConnection dbConnection = new OleDbConnection(connectionString))
                 {

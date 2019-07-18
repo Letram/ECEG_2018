@@ -1,6 +1,12 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="ECEG_Migration.Default" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
+    <asp:AccessDataSource ID="query_AllYears" runat="server" DataFile="~/App_Data/ECEG_2018.mdb" 
+    SelectCommand = "SELECT DISTINCT YearP from Grammars ORDER BY YearP"></asp:AccessDataSource>
+    <div>
+        <asp:DropDownList ID="dropdown_year" runat="server" CssClass="form-control"></asp:DropDownList>
+    </div>
+
     <asp:AccessDataSource ID="query_AllGrammars" runat="server" DataFile="~/App_Data/ECEG_2018.mdb" 
     SelectCommand = "SELECT Grammar as id, YearP, Edition, Title from Grammars ORDER BY Grammar, YearP, Edition"></asp:AccessDataSource>
 
@@ -25,4 +31,6 @@
             <asp:CommandField ButtonType="Link"   ShowSelectButton="true"          SelectText="Seleccionar" ItemStyle-CssClass="btn"/>
         </Columns>
     </asp:GridView>
+
+
 </asp:Content>

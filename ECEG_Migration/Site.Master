@@ -15,7 +15,6 @@
 
     <webopt:bundlereference runat="server" path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-
 </head>
 <body>
     <form runat="server">
@@ -68,8 +67,7 @@
         </div>
 
     </form>
-    <script src="Scripts/myScripts.js"></script>
     <script src="https://kit.fontawesome.com/1ba00c8269.js"></script>
-
+    <script src="Scripts/myScripts.js"></script>
 </body>
 </html>

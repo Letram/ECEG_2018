@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Collections;
 using ECEG_Migration.Models;
+using System.Data;
 
 namespace ECEG_Migration
 {
@@ -14,6 +15,11 @@ namespace ECEG_Migration
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            DataSet yearSet = DbManager.GetAllYears();
+            dropdown_year.DataSource = yearSet.Tables[0];
+            dropdown_year.DataValueField = "YearP";
+            dropdown_year.DataTextField = "YearP";
+            dropdown_year.DataBind();
         }
 
         protected void table_AllGrammars_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -36,7 +42,7 @@ namespace ECEG_Migration
             if (text.Length <= length) return text;
             return text.Substring(0, length) + "...";
         }
-
+        
         protected void table_AllGrammars_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName != "Select") return;
@@ -44,5 +50,6 @@ namespace ECEG_Migration
             int grammarIndex = Convert.ToInt32(table_AllGrammars.Rows[rowIndex].Cells[0].Text);
             Response.Redirect("grammar.aspx?grammar=" + grammarIndex.ToString());
         }
+        
     }
 }
