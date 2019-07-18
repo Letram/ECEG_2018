@@ -3,8 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.OleDb;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -34,6 +36,11 @@ namespace ECEG_Migration
 
                 Session["grammar_id"] = Request.QueryString["grammar"];
                 grammarId = Session["grammar_id"].ToString();
+
+                Grammar grammar = new Grammar(grammarId);
+
+                Debug.WriteLine(new JavaScriptSerializer().Serialize(grammar));
+                Console.WriteLine(new JavaScriptSerializer().Serialize(grammar));
 
                 Author au = DbManager.GetAuthorDataFromGrammar(grammarId);
 
@@ -124,6 +131,14 @@ namespace ECEG_Migration
 
                     table_sub_content.Rows.Add(row);
                 }
+
+                var (tAge, tGender, tIns, tSP) = DbManager.GetAudienceCriteriasFromGrammar(grammarId);
+
+                table_audience.Rows[0].Cells[0].Text = tAge.AudienceName;
+                table_audience.Rows[0].Cells[1].Text = tGender.AudienceName;
+                table_audience.Rows[0].Cells[2].Text = tIns.AudienceName;
+                table_audience.Rows[0].Cells[3].Text = tSP.AudienceName;
+
                 using (OleDbConnection dbConnection = new OleDbConnection(connectionString))
                 {
                     dbConnection.Open();

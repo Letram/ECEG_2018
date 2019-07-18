@@ -41,6 +41,15 @@
     </asp:Table>
     <label>SUBSIDIARY CONTENT</label>
     <asp:Table runat="server" ID="table_sub_content" CssClass="table"></asp:Table>
+    <label>AUDIENCE CRITERIA</label>
+    <asp:Table runat="server" ID="table_audience" CssClass="table">
+        <asp:TableRow>
+            <asp:TableCell></asp:TableCell>
+            <asp:TableCell></asp:TableCell>
+            <asp:TableCell></asp:TableCell>
+            <asp:TableCell></asp:TableCell>
+        </asp:TableRow>
+    </asp:Table>
     <div class="row">
         <button runat="server" id="btn_prev" class="btn btn_direction" onserverclick="btn_prev_ServerClick">
             <i class="fas fa-chevron-left fa-9x"></i>

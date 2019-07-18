@@ -212,6 +212,8 @@
     </Compile>
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\City.cs" />
+    <Compile Include="Models\Grammar.cs" />
+    <Compile Include="Models\TargetAudience.cs" />
     <Compile Include="Models\SubsidiaryContent.cs" />
     <Compile Include="Models\GrammaticalCategory.cs" />
     <Compile Include="Models\TypeOfWork.cs" />

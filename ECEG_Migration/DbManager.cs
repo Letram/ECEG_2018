@@ -85,6 +85,30 @@ namespace ECEG_Migration
             }
         }
 
+        public static string getCommentsFromGrammar(string grammarId)
+        {
+            string res = "";
+
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                OleDbCommand query = new OleDbCommand("SELECT Comments FROM Grammars WHERE Grammar = ?", connection);
+                OleDbParameter param_grammar = query.CreateParameter();
+                param_grammar.Value = grammarId;
+                query.Parameters.Add(param_grammar);
+
+                OleDbDataReader reader = query.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    res = reader["Comments"].ToString();
+                }
+            }
+
+            return res;
+        }
+
         public static City[] GetAllCities()
         {
             ArrayList cityArr = new ArrayList();
@@ -342,6 +366,45 @@ namespace ECEG_Migration
             }
 
             return (SubsidiaryContent[])subsidiaryContents.ToArray(typeof(SubsidiaryContent));
+        }
+
+        public static (TargetAudience tAge, TargetAudience tGender, TargetAudience tInstruction, TargetAudience tSP) GetAudienceCriteriasFromGrammar(string grammarId)
+        {
+            TargetAudience age = new TargetAudience();
+            TargetAudience gender = new TargetAudience();
+            TargetAudience instruction = new TargetAudience();
+            TargetAudience sp = new TargetAudience();
+
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                OleDbCommand storedProcedure = new OleDbCommand("GetAudienceCriteriaFromId", connection);
+                storedProcedure.CommandType = System.Data.CommandType.StoredProcedure;
+                storedProcedure.Parameters.AddWithValue("@grammarId", grammarId);
+
+                OleDbDataReader reader = storedProcedure.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    age.AudienceType = 1;
+                    age.AudienceCriteria = Convert.ToInt32(reader["t_age_id"]);
+                    age.AudienceName = reader["t_age"].ToString();
+
+                    gender.AudienceType = 2;
+                    gender.AudienceCriteria = Convert.ToInt32(reader["t_gender_id"]);
+                    gender.AudienceName = reader["t_gender"].ToString();
+
+                    instruction.AudienceType = 3;
+                    instruction.AudienceCriteria = Convert.ToInt32(reader["t_instruction_id"]);
+                    instruction.AudienceName = reader["t_instruction"].ToString();
+
+                    sp.AudienceType = 4;
+                    sp.AudienceCriteria = Convert.ToInt32(reader["t_sp_id"]);
+                    sp.AudienceName = reader["t_sp"].ToString();
+                }
+            }
+            return (age, gender, instruction, sp);
         }
     }
 }
