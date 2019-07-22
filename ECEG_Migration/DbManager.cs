@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -18,22 +19,23 @@ namespace ECEG_Migration
             Author res = new Author();
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
-                String queryString = "SELECT * FROM (authors INNER JOIN Grammars ON Grammars.Author_id = authors.author_id) WHERE Grammars.Grammar = " + grammarId;
+                //String queryString = "SELECT * FROM (authors INNER JOIN Grammars ON Grammars.Author_id = authors.author_id) WHERE Grammars.Grammar = " + grammarId;
+                String queryString = "select a.*, City as city_name, County as county_name, Country as country_name from authors a, Cities c, Counties co, Country cr, Grammars where a.author_id = Grammars.Author_Id and Grammars.Grammar = " + grammarId + " and c.City_id = a.PoB_City and co.County_Id = a.PoB_County and cr.Country_Id = a.PoB_Country";
                 connection.Open();
                 OleDbCommand command = new OleDbCommand(queryString, connection);
                 OleDbDataReader reader = command.ExecuteReader();
                 if (reader.Read())
                 {
                     //get direct data
-                    res.Author_id = Convert.ToInt32(reader["authors.Author_id"]);
+                    res.Author_id = Convert.ToInt32(reader["author_id"]);
                     res.Name = reader["author_name"].ToString();
                     res.Gender = reader["gender_info"].ToString();
                     res.Gender_id = Convert.ToInt32(reader["gender"]);
-                    res.City_name = reader["city_info"].ToString();
+                    res.City_name = reader["city_name"].ToString();
                     res.City_id = Convert.ToInt32(reader["PoB_City"]);
-                    res.County_name = reader["county_info"].ToString();
+                    res.County_name = reader["county_name"].ToString();
                     res.County_id = Convert.ToInt32(reader["PoB_County"]);
-                    res.Country_name = reader["country_info"].ToString();
+                    res.Country_name = reader["country_name"].ToString();
                     res.Country_id = Convert.ToInt32(reader["PoB_Country"]);
                     res.Biographical_details = reader["bio"].ToString();
 
@@ -60,6 +62,85 @@ namespace ECEG_Migration
             return res;
         }
 
+        internal static ArrayList GetAllGrammars()
+        {
+            ArrayList grammars = new ArrayList();
+
+            ArrayList ids = new ArrayList();
+
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                OleDbCommand query = new OleDbCommand("SELECT Grammar FROM Grammars", connection);
+                OleDbDataReader reader = query.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    ids.Add(reader["Grammar"].ToString());
+                }
+            }
+
+            foreach (String id in ids)
+            {
+                Debug.WriteLine(id);
+                grammars.Add(new Grammar(id));
+            }
+
+            return grammars;
+
+        }
+
+        internal static (string comments, string year, string title) getBasicInfoFromGrammar(string grammarId)
+        {
+            string comments = "", year = "", title = "";
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                OleDbCommand query = new OleDbCommand("SELECT YearP, Title, Comments FROM Grammars WHERE Grammar = ?", connection);
+                OleDbParameter param_grammar = query.CreateParameter();
+                param_grammar.Value = grammarId;
+                query.Parameters.Add(param_grammar);
+
+                OleDbDataReader reader = query.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    comments = reader["Comments"].ToString();
+                    year = reader["YearP"].ToString();
+                    title = reader["Title"].ToString();
+                }
+            }
+            return (comments, year, title);
+        }
+
+        internal static ArrayList GetAllGrammarsLite()
+        {
+            ArrayList grammars = new ArrayList();
+
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                OleDbCommand query = new OleDbCommand("SELECT Grammar, YearP, Edition, Title FROM Grammars", connection);
+                OleDbDataReader reader = query.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Grammar grammarAux = new Grammar();
+                    grammarAux.GrammarId = Convert.ToInt32(reader["Grammar"]);
+                    grammarAux.GrammarPublicationYear = reader["YearP"].ToString();
+                    grammarAux.GrammarTitle = reader["Title"].ToString();
+                    grammarAux.GrammarEdition = Convert.ToInt32(reader["Edition"]);
+
+                    grammars.Add(grammarAux);
+                }
+            }
+
+            return grammars;
+
+        }
         public static Boolean UpdateGrammarWithPoPInfo(int[] pop)
         {
             using (OleDbConnection connection = new OleDbConnection(connectionString))
@@ -210,8 +291,9 @@ namespace ECEG_Migration
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
                 connection.Open();
-
-                OleDbCommand query = new OleDbCommand("SELECT * FROM Grammars WHERE Grammar = ?", connection);
+                
+                //OleDbCommand query = new OleDbCommand("SELECT * FROM Grammars WHERE Grammar = ?", connection);
+                OleDbCommand query = new OleDbCommand("SELECT Grammars.*, City as city_name, County as county_name, Country as country_name FROM Grammars, Cities c, Counties co, Country cr WHERE Grammar = ? and Grammars.city_id = c.City_id and Grammars.county_id = co.County_Id and Grammars.country_id = cr.Country_Id", connection);
                 var queryParam = query.CreateParameter();
                 queryParam.Value = grammarId.ToString();
                 query.Parameters.Add(queryParam);
@@ -415,7 +497,7 @@ namespace ECEG_Migration
             using (OleDbConnection con = new OleDbConnection(connectionString))
             {
                 //Open Database Connection
-                OleDbDataAdapter da = new OleDbDataAdapter("SELECT YearP FROM Grammars ORDER BY YearP", con);
+                OleDbDataAdapter da = new OleDbDataAdapter("SELECT DISTINCT YearP FROM Grammars ORDER BY YearP", con);
 
                 //Fill the DataSet
                 da.Fill(yearSet);

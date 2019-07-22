@@ -6,3 +6,5 @@ $(document).on("click", ".all_grammar_table tr:not(:first-child)", function () {
     //javascript: __doPostBack('ctl00$MainContent$TablaUsuarios', 'Select$' + (indiceFila - 1));
 
 });
+
+//$(".my-select").selectpicker();

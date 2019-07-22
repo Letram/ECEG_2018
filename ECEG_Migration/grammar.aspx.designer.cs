@@ -13,6 +13,15 @@ namespace ECEG_Migration {
     public partial class grammar {
         
         /// <summary>
+        /// Control grammar_title.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl grammar_title;
+        
+        /// <summary>
         /// Control table_author.
         /// </summary>
         /// <remarks>

@@ -22,6 +22,15 @@ namespace ECEG_Migration {
         protected global::System.Web.UI.WebControls.AccessDataSource query_AllYears;
         
         /// <summary>
+        /// Control update_year_dropdown_panel.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel update_year_dropdown_panel;
+        
+        /// <summary>
         /// Control dropdown_year.
         /// </summary>
         /// <remarks>

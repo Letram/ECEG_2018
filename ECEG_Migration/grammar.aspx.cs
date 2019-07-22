@@ -15,21 +15,19 @@ namespace ECEG_Migration
     public partial class grammar : System.Web.UI.Page
     {
         readonly string connectionString = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source = " + HttpContext.Current.Server.MapPath("~/App_Data") + @"\ECEG_2018.mdb;";
-        String queryString = "";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
                 Session["grammar_id"] = "";
                 Session["grammar_ids"] = "";
-                queryString = "";
                 String grammarId = "1";
                 try
                 {
                     Session["grammar_id"] = Request.QueryString["grammar"];
                     grammarId = Session["grammar_id"].ToString();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     Response.Redirect("/");
                 }
@@ -38,7 +36,7 @@ namespace ECEG_Migration
                 grammarId = Session["grammar_id"].ToString();
 
                 Grammar grammar = new Grammar(grammarId);
-
+                grammar_title.InnerText = grammar.GrammarTitle;
                 //Debug.WriteLine(new JavaScriptSerializer().Serialize(grammar));
 
                 Author au = grammar.GrammarAuthor;
@@ -139,25 +137,34 @@ namespace ECEG_Migration
                 table_audience.Rows[0].Cells[3].Text = tSP.AudienceName;
 
                 label_comments.Text = grammar.GrammarCommments;
-
-                using (OleDbConnection dbConnection = new OleDbConnection(connectionString))
+                
+                if (Session["last_search_ids"] != null)
                 {
-                    dbConnection.Open();
-
-                    OleDbCommand query = new OleDbCommand("SELECT grammar FROM grammars ORDER BY grammar ASC", dbConnection);
-                    OleDbDataReader reader = query.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        int readIndex = Convert.ToInt32(reader["grammar"].ToString());
-                        Session["grammar_ids"] += reader["grammar"].ToString() + ",";
-                    }
-                    Session["grammar_ids"] = Session["grammar_ids"].ToString().Remove(Session["grammar_ids"].ToString().Length - 1);
-                    String[] grammarArr = Session["grammar_ids"].ToString().Split(',');
-
+                    string[] grammarArr = Session["last_search_ids"] as string[];
                     grammar_page_counter.InnerText = (Array.IndexOf(grammarArr, grammarId) + 1) + " of " + grammarArr.Length;
 
                     checkPosition(Array.IndexOf(grammarArr, grammarId), grammarArr);
+                }
+                else
+                {
+                    using (OleDbConnection dbConnection = new OleDbConnection(connectionString))
+                    {
+                        dbConnection.Open();
+
+                        OleDbCommand query = new OleDbCommand("SELECT grammar FROM grammars ORDER BY YearP ASC", dbConnection);
+                        OleDbDataReader reader = query.ExecuteReader();
+
+                        while (reader.Read())
+                        {
+                            int readIndex = Convert.ToInt32(reader["grammar"].ToString());
+                            Session["grammar_ids"] += reader["grammar"].ToString() + ",";
+                        }
+                        Session["grammar_ids"] = Session["grammar_ids"].ToString().Remove(Session["grammar_ids"].ToString().Length - 1);
+                        String[] grammarArr = Session["grammar_ids"].ToString().Split(',');
+                        grammar_page_counter.InnerText = (Array.IndexOf(grammarArr, grammarId) + 1) + " of " + grammarArr.Length;
+
+                        checkPosition(Array.IndexOf(grammarArr, grammarId), grammarArr);
+                    }
                 }
             }
         }

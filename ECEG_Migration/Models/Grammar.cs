@@ -20,7 +20,9 @@ namespace ECEG_Migration.Models
         private TargetAudience grammarTargetInstruction;
         private TargetAudience grammarTargetSP;
         private string grammarCommments;
-
+        private string grammarPublicationYear;
+        private string grammarTitle;
+        private int grammarEdition;
         public int GrammarId { get => grammarId; set => grammarId = value; }
         public Author GrammarAuthor { get => grammarAuthor; set => grammarAuthor = value; }
         public Imprint GrammarImprint { get => grammarImprint; set => grammarImprint = value; }
@@ -34,6 +36,9 @@ namespace ECEG_Migration.Models
         public TargetAudience GrammarTargetInstruction { get => grammarTargetInstruction; set => grammarTargetInstruction = value; }
         public TargetAudience GrammarTargetSP { get => grammarTargetSP; set => grammarTargetSP = value; }
         public string GrammarCommments { get => grammarCommments; set => grammarCommments = value; }
+        public string GrammarPublicationYear { get => grammarPublicationYear; set => grammarPublicationYear = value; }
+        public int GrammarEdition { get => grammarEdition; set => grammarEdition = value; }
+        public string GrammarTitle { get => grammarTitle; set => grammarTitle = value; }
 
         public Grammar(string grammarId)
         {
@@ -46,7 +51,11 @@ namespace ECEG_Migration.Models
             this.grammarGrammaticalCategory = DbManager.GetGrammaticalCategoryFromGrammar(grammarId);
             this.grammarSubsidiaryContents = DbManager.GetSubsidiaryContentsFromGrammar(grammarId);
             (this.grammarTargetAge, this.grammarTargetGender, this.grammarTargetInstruction, this.grammarTargetSP) = DbManager.GetAudienceCriteriasFromGrammar(grammarId);
-            this.grammarCommments = DbManager.getCommentsFromGrammar(grammarId);
+            (this.grammarCommments, this.GrammarPublicationYear, this.GrammarTitle) = DbManager.getBasicInfoFromGrammar(grammarId);
+        }
+
+        public Grammar()
+        {
         }
     }
 }

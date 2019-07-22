@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="grammar.aspx.cs" Inherits="ECEG_Migration.grammar" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <label>AUTHOR</label>
+    <p class="h1" runat="server" id="grammar_title"></p>
+    <p class="h3">AUTHOR</p>
     <asp:Table ID="table_author" runat="server" CssClass="table">
         <asp:TableRow Width="100%">
             <asp:TableCell></asp:TableCell>
@@ -11,7 +12,7 @@
             <asp:TableCell></asp:TableCell>
         </asp:TableRow>
     </asp:Table>
-    <label>OCCUPATION</label>
+    <p class="h3">OCCUPATION</p>
     <asp:Table runat="server" ID="table_occupation" CssClass="table"></asp:Table>
     <label>IMPRINT</label>
     <asp:Table runat="server" ID="table_imprint" CssClass="table">
@@ -24,7 +25,7 @@
             <asp:TableCell></asp:TableCell>
         </asp:TableRow>
     </asp:Table>
-    <label>REFERENCE SOURCES</label>
+    <p class="h3">REFERENCE SOURCES</p>
     <asp:Table runat="server" ID="table_references" CssClass="table"></asp:Table>
     <label>HOLDING LIBRARIES</label>
     <asp:Table runat="server" ID="table_libraries" CssClass="table"></asp:Table>
@@ -39,9 +40,9 @@
             <asp:TableCell></asp:TableCell>
         </asp:TableRow>
     </asp:Table>
-    <label>SUBSIDIARY CONTENT</label>
+    <p class="h3">SUBSIDIARY CONTENT</p>
     <asp:Table runat="server" ID="table_sub_content" CssClass="table"></asp:Table>
-    <label>AUDIENCE CRITERIA</label>
+    <p class="h3">AUDIENCE CRITERIA</p>
     <asp:Table runat="server" ID="table_audience" CssClass="table">
         <asp:TableRow>
             <asp:TableCell></asp:TableCell>
@@ -50,7 +51,7 @@
             <asp:TableCell></asp:TableCell>
         </asp:TableRow>
     </asp:Table>
-    <label>COMMENTS</label><br />
+    <p class="h3">COMMENTS</p><br />
     <asp:Label runat="server" ID="label_comments"></asp:Label>
     <div class="row">
         <button runat="server" id="btn_prev" class="btn btn_direction" onserverclick="btn_prev_ServerClick">
