@@ -559,7 +559,7 @@
     <Compile Include="Models\Grammar.cs" />
     <Compile Include="Models\TargetAudience.cs" />
     <Compile Include="Models\SubsidiaryContent.cs" />
-    <Compile Include="Models\GrammaticalCategory.cs" />
+    <Compile Include="Models\GrammarDivision.cs" />
     <Compile Include="Models\TypeOfWork.cs" />
     <Compile Include="Models\Library.cs" />
     <Compile Include="Models\Reference.cs" />

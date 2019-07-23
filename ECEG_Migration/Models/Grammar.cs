@@ -13,7 +13,7 @@ namespace ECEG_Migration.Models
         private Reference[] grammarReferences;
         private Library[] grammarHoldingLibraries;
         private TypeOfWork grammarTypeOfWork;
-        private GrammaticalCategory grammarGrammaticalCategory;
+        private GrammarDivision grammarDivision;
         private SubsidiaryContent[] grammarSubsidiaryContents;
         private TargetAudience grammarTargetAge;
         private TargetAudience grammarTargetGender;
@@ -29,7 +29,7 @@ namespace ECEG_Migration.Models
         public Reference[] GrammarReferences { get => grammarReferences; set => grammarReferences = value; }
         public Library[] GrammarHoldingLibraries { get => grammarHoldingLibraries; set => grammarHoldingLibraries = value; }
         public TypeOfWork GrammarTypeOfWork { get => grammarTypeOfWork; set => grammarTypeOfWork = value; }
-        public GrammaticalCategory GrammarGrammaticalCategory { get => grammarGrammaticalCategory; set => grammarGrammaticalCategory = value; }
+        public GrammarDivision GrammarDivision { get => grammarDivision; set => grammarDivision = value; }
         public SubsidiaryContent[] GrammarSubsidiaryContents { get => grammarSubsidiaryContents; set => grammarSubsidiaryContents = value; }
         public TargetAudience GrammarTargetAge { get => grammarTargetAge; set => grammarTargetAge = value; }
         public TargetAudience GrammarTargetGender { get => grammarTargetGender; set => grammarTargetGender = value; }
@@ -48,9 +48,9 @@ namespace ECEG_Migration.Models
             this.grammarReferences = DbManager.GetReferenceDataFromGrammar(grammarId);
             this.grammarHoldingLibraries = DbManager.GetHoldingLibrariesFromGrammar(grammarId);
             this.grammarTypeOfWork = DbManager.GetTypeOfWorkFromGrammar(grammarId);
-            this.grammarGrammaticalCategory = DbManager.GetGrammaticalCategoryFromGrammar(grammarId);
+            this.grammarDivision = DbManager.GetGrammaticalCategoryFromGrammar(grammarId);
             this.grammarSubsidiaryContents = DbManager.GetSubsidiaryContentsFromGrammar(grammarId);
-            (this.grammarTargetAge, this.grammarTargetGender, this.grammarTargetInstruction, this.grammarTargetSP) = DbManager.GetAudienceCriteriasFromGrammar(grammarId);
+            //(this.grammarTargetAge, this.grammarTargetGender, this.grammarTargetInstruction, this.grammarTargetSP) = DbManager.GetAudienceCriteriasFromGrammar(grammarId);
             (this.grammarCommments, this.GrammarPublicationYear, this.GrammarTitle) = DbManager.getBasicInfoFromGrammar(grammarId);
         }
 

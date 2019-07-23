@@ -20,7 +20,7 @@ namespace ECEG_Migration
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
                 //String queryString = "SELECT * FROM (authors INNER JOIN Grammars ON Grammars.Author_id = authors.author_id) WHERE Grammars.Grammar = " + grammarId;
-                String queryString = "select a.*, City as city_name, County as county_name, Country as country_name from authors a, Cities c, Counties co, Country cr, Grammars where a.author_id = Grammars.Author_Id and Grammars.Grammar = " + grammarId + " and c.City_id = a.PoB_City and co.County_Id = a.PoB_County and cr.Country_Id = a.PoB_Country";
+                String queryString = "select a.*, City as city_name, County as county_name, Country as country_name from authors a, Cities c, Counties co, Country cr, Grammars where a.author_id = Grammars.Author_Id and Grammars.Grammar = " + grammarId + " and c.City_id = a.city_id and co.County_Id = a.county_id and cr.Country_Id = a.country_id";
                 connection.Open();
                 OleDbCommand command = new OleDbCommand(queryString, connection);
                 OleDbDataReader reader = command.ExecuteReader();
@@ -30,13 +30,12 @@ namespace ECEG_Migration
                     res.Author_id = Convert.ToInt32(reader["author_id"]);
                     res.Name = reader["author_name"].ToString();
                     res.Gender = reader["gender_info"].ToString();
-                    res.Gender_id = Convert.ToInt32(reader["gender"]);
                     res.City_name = reader["city_name"].ToString();
-                    res.City_id = Convert.ToInt32(reader["PoB_City"]);
+                    res.City_id = Convert.ToInt32(reader["city_id"]);
                     res.County_name = reader["county_name"].ToString();
-                    res.County_id = Convert.ToInt32(reader["PoB_County"]);
+                    res.County_id = Convert.ToInt32(reader["county_id"]);
                     res.Country_name = reader["country_name"].ToString();
-                    res.Country_id = Convert.ToInt32(reader["PoB_Country"]);
+                    res.Country_id = Convert.ToInt32(reader["country_id"]);
                     res.Biographical_details = reader["bio"].ToString();
 
                     ArrayList author_occupations = new ArrayList();
@@ -60,6 +59,221 @@ namespace ECEG_Migration
                 reader.Close();
             }
             return res;
+        }
+
+        public static Grammar[] GetAllGrammars_v2()
+        {
+            ArrayList grammars = new ArrayList();
+
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                OleDbCommand storedProcedure = new OleDbCommand("GetAllGrammars_incomplete", connection);
+                storedProcedure.CommandType = CommandType.StoredProcedure;
+
+                OleDbDataReader reader = storedProcedure.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    //Tengo que crear un autor y un libro de gramatica para irlos rellenando poco a poco.
+
+                    Author grammarAuthor = new Author();
+                    /**
+                     * En el caso del autor rellenamos todos los campos menos:
+                     *  - city_name -> Se puede rellenar luego teniendo la lista con las ciudades
+                     *  - county_name -> Se puede rellenar luego teniendo la lista con las provincias
+                     *  - country_name -> Se puede rellenar luego teniendo la lista con los paises
+                     *  
+                     *  - occupations -> Se puede rellenar luego teniendo una lista con todos los oficios de los autores
+                     * */
+
+                    grammarAuthor.Author_id = Convert.ToInt32(reader["authors.Author_Id"]);
+                    grammarAuthor.Name = reader["author_name"].ToString();
+                    grammarAuthor.Gender = reader["authors.gender_info"].ToString();
+                    grammarAuthor.Country_id = Convert.ToInt32(reader["authors.country_id"]);
+                    grammarAuthor.County_id = Convert.ToInt32(reader["authors.county_id"]);
+                    grammarAuthor.City_id = Convert.ToInt32(reader["authors.city_id"]);
+                    grammarAuthor.Biographical_details = reader["bio"].ToString();
+
+                    Grammar grammar = new Grammar();
+                    /**
+                     * En el caso del libro de gramática rellenamos todos los campos menos:
+                     *  # GrammarImprint
+                     *      - city_name -> Se puede rellenar luego teniendo la lista con las ciudades
+                     *      - county_name -> Se puede rellenar luego teniendo la lista con las provincias
+                     *      - country_name -> Se puede rellenar luego teniendo la lista con los paises
+                     *  
+                     *  - GrammarReferences -> Se puede rellenar luego teniendo una lista con todas las referencias de los libros
+                     *  - GrammarLibraries -> Se puede rellenar luego teniendo una lista con las bibliotecas que tienen los libros
+                     *  - GrammarSubsidiaryContents -> Se puede rellenar luego teniendo una lista con los contenidos que tienen los libros
+                     *  
+                     * */
+
+                    grammar.GrammarId = Convert.ToInt32(reader["Grammar"]);
+                    grammar.GrammarPublicationYear = reader["YearP"].ToString();
+                    grammar.GrammarTitle = reader["Title"].ToString();
+                    grammar.GrammarAuthor = grammarAuthor;
+
+                    Imprint grammarImprint = new Imprint();
+                    grammarImprint.Grammar_id = grammar.GrammarId;
+                    grammarImprint.Country_id = Convert.ToInt32(reader["Grammars.country_id"]);
+                    grammarImprint.County_id = Convert.ToInt32(reader["Grammars.county_id"]);
+                    grammarImprint.City_id = Convert.ToInt32(reader["Grammars.city_id"]);
+                    grammarImprint.Printers = reader["Printers"].ToString();
+                    grammarImprint.Printers = reader["BookSellers"].ToString();
+                    grammarImprint.Printers = reader["Price"].ToString();
+                    grammarImprint.Printers = reader["Physical_Description"].ToString();
+
+                    grammar.GrammarImprint = grammarImprint;
+
+                    TypeOfWork grammarToW = new TypeOfWork();
+                    grammarToW.Code = reader["Grammars.Type_Work"].ToString();
+                    grammarToW.Type_description = reader["Description"].ToString();
+
+                    grammar.GrammarTypeOfWork = grammarToW;
+
+                    GrammarDivision grammarDivision = new GrammarDivision();
+                    grammarDivision.Category_id = Convert.ToInt32(reader["Group"]);
+                    grammarDivision.Category_name = reader["Division"].ToString();
+
+                    grammar.GrammarDivision = grammarDivision;
+
+                    TargetAudience grammarAgeAudience = new TargetAudience();
+                    grammarAgeAudience.AudienceCriteria = Convert.ToInt32(reader["age_id"]);
+                    grammarAgeAudience.AudienceName = reader["age_info"].ToString();
+
+                    TargetAudience grammarGenderAudience = new TargetAudience();
+                    grammarAgeAudience.AudienceCriteria = Convert.ToInt32(reader["gender_id"]);
+                    grammarAgeAudience.AudienceName = reader["audience_genders.gender_info"].ToString();
+
+                    TargetAudience grammarInstructionAudience = new TargetAudience();
+                    grammarAgeAudience.AudienceCriteria = Convert.ToInt32(reader["instruction_id"]);
+                    grammarAgeAudience.AudienceName = reader["instruction_info"].ToString();
+
+                    TargetAudience grammarPurposeAudience = new TargetAudience();
+                    grammarAgeAudience.AudienceCriteria = Convert.ToInt32(reader["purpose_id"]);
+                    grammarAgeAudience.AudienceName = reader["purpose_info"].ToString();
+
+                    grammar.GrammarTargetAge = grammarAgeAudience;
+                    grammar.GrammarTargetGender = grammarGenderAudience;
+                    grammar.GrammarTargetInstruction = grammarInstructionAudience;
+                    grammar.GrammarTargetSP = grammarPurposeAudience;
+
+                    grammar.GrammarCommments = reader["Comments"].ToString();
+
+                    grammars.Add(grammar);
+                }
+
+            }
+
+            return (Grammar[])grammars.ToArray(typeof(Grammar));
+        }
+
+        public static Occupation[] GetAllAuthorOccupations()
+        {
+            ArrayList occupations = new ArrayList();
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                OleDbCommand storedProcedure = new OleDbCommand("GetAllAuthorOccupations", connection);
+                storedProcedure.CommandType = CommandType.StoredProcedure;
+
+                OleDbDataReader reader = storedProcedure.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Occupation occupation = new Occupation();
+                    occupation.Author_id = Convert.ToInt32(reader["author_id"]);
+                    occupation.Topic_name = reader["description"].ToString();
+                    occupation.Topic_id = Convert.ToInt32(reader["occ_id"]);
+                    occupation.Details = reader["occ_text"].ToString();
+
+                    occupations.Add(occupation);
+                }
+            }
+
+            return (Occupation[])occupations.ToArray(typeof(Occupation));
+        }
+
+        public static Reference[] GetAllGrammarReferences()
+        {
+            ArrayList references = new ArrayList();
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                OleDbCommand storedProcedure = new OleDbCommand("GetAllGrammarReferences", connection);
+                storedProcedure.CommandType = CommandType.StoredProcedure;
+
+                OleDbDataReader reader = storedProcedure.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Reference reference = new Reference();
+                    reference.Grammar_id = Convert.ToInt32(reader["Grammar"]);
+                    reference.Group = Convert.ToInt32(reader["group_id"]);
+                    reference.Reference_id = Convert.ToInt32(reader["Also_In"]);
+                    reference.Description = reader["description"].ToString();
+
+                    references.Add(reference);
+                }
+            }
+
+            return (Reference[])references.ToArray(typeof(Reference));
+        }
+
+        public static Library[] GetAllGrammarHoldingLibraries()
+        {
+            ArrayList libraries = new ArrayList();
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                OleDbCommand storedProcedure = new OleDbCommand("GetAllGrammarHoldingLibraries", connection);
+                storedProcedure.CommandType = CommandType.StoredProcedure;
+
+                OleDbDataReader reader = storedProcedure.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Library library = new Library();
+                    library.Grammar_id = Convert.ToInt32(reader["Grammar"]);
+                    library.Code = reader["Library"].ToString();
+                    library.Library_name = reader["Description"].ToString();
+
+                    libraries.Add(library);
+                }
+            }
+
+            return (Library[])libraries.ToArray(typeof(Library));
+        }
+
+        public static SubsidiaryContent[] GetAllGrammarSubsidiaryContents()
+        {
+            ArrayList subContents = new ArrayList();
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                OleDbCommand storedProcedure = new OleDbCommand("GetAllGrammarSubsidiaryContents", connection);
+                storedProcedure.CommandType = CommandType.StoredProcedure;
+
+                OleDbDataReader reader = storedProcedure.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    SubsidiaryContent subContent = new SubsidiaryContent();
+                    subContent.Grammar_id = Convert.ToInt32(reader["Grammar"]);
+                    subContent.Sub_content_id = Convert.ToInt32(reader["content_id"]);
+                    subContent.Sub_content_name = reader["Sub_contents"].ToString();
+
+                    subContents.Add(subContent);
+                }
+            }
+
+            return (SubsidiaryContent[])subContents.ToArray(typeof(SubsidiaryContent));
         }
 
         internal static ArrayList GetAllGrammars()
@@ -216,7 +430,7 @@ namespace ECEG_Migration
 
         public static County[] GetAllCounties()
         {
-            ArrayList cityArr = new ArrayList();
+            ArrayList county_arr = new ArrayList();
 
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
@@ -226,15 +440,15 @@ namespace ECEG_Migration
 
                 while (reader.Read())
                 {
-                    County newCity = new County();
-                    newCity.County_id = Convert.ToInt32(reader["County_Id"]);
-                    newCity.County_name = reader["County"].ToString();
-                    newCity.County_id = Convert.ToInt32(reader["Country_Id"]);
-                    cityArr.Add(newCity);
+                    County county = new County();
+                    county.County_id = Convert.ToInt32(reader["County_Id"]);
+                    county.County_name = reader["County"].ToString();
+                    county.Country_id = Convert.ToInt32(reader["Country_Id"]);
+                    county_arr.Add(county);
                 }
             }
 
-            return (County[])cityArr.ToArray(typeof(County));
+            return (County[])county_arr.ToArray(typeof(County));
         }
 
         public static Country[] GetAllCountries()
@@ -398,9 +612,9 @@ namespace ECEG_Migration
             return res;
         }
 
-        public static GrammaticalCategory GetGrammaticalCategoryFromGrammar(string grammarId)
+        public static GrammarDivision GetGrammaticalCategoryFromGrammar(string grammarId)
         {
-            GrammaticalCategory res = new GrammaticalCategory();
+            GrammarDivision res = new GrammarDivision();
 
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
@@ -470,19 +684,15 @@ namespace ECEG_Migration
 
                 if (reader.Read())
                 {
-                    age.AudienceType = 1;
                     age.AudienceCriteria = Convert.ToInt32(reader["t_age_id"]);
                     age.AudienceName = reader["t_age"].ToString();
 
-                    gender.AudienceType = 2;
                     gender.AudienceCriteria = Convert.ToInt32(reader["t_gender_id"]);
                     gender.AudienceName = reader["t_gender"].ToString();
 
-                    instruction.AudienceType = 3;
                     instruction.AudienceCriteria = Convert.ToInt32(reader["t_instruction_id"]);
                     instruction.AudienceName = reader["t_instruction"].ToString();
 
-                    sp.AudienceType = 4;
                     sp.AudienceCriteria = Convert.ToInt32(reader["t_sp_id"]);
                     sp.AudienceName = reader["t_sp"].ToString();
                 }
@@ -504,5 +714,7 @@ namespace ECEG_Migration
             }
             return yearSet;
         }
+
+        
     }
 }

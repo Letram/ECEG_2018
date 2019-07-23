@@ -105,7 +105,7 @@ namespace ECEG_Migration
                 }
 
                 TypeOfWork tow = grammar.GrammarTypeOfWork;
-                GrammaticalCategory gc = grammar.GrammarGrammaticalCategory;
+                GrammarDivision gc = grammar.GrammarDivision;
 
                 table_work_types.Rows[0].Cells[0].Text = tow.Code;
                 table_work_types.Rows[0].Cells[1].Text = tow.Type_description;
