@@ -15,8 +15,9 @@
 
     <webopt:bundlereference runat="server" path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="Content/bubbly_button.css" rel="stylesheet" />
 </head>
-<body>
+<body id ="top">
     <form runat="server">
         <asp:ScriptManager runat="server">
             <Scripts>

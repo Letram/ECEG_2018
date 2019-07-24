@@ -14,63 +14,20 @@ namespace ECEG_Migration
 {
     public partial class Default : System.Web.UI.Page
     {
-        ArrayList grammars = new ArrayList();
+        private Data dataInstance = Data.GetInstance();
         protected void Page_Load(object sender, EventArgs e)
         {
-            Stopwatch sw = new Stopwatch(); // Creación del Stopwatch.
-            sw.Start(); // Iniciar la medición.
-
-            Grammar[] allGrammarsPartiallyCompleted = DbManager.GetAllGrammars_v2();
-            Occupation[] allOccupations = DbManager.GetAllAuthorOccupations();
-            Reference[] allReferences = DbManager.GetAllGrammarReferences();
-            Library[] allLibraries = DbManager.GetAllGrammarHoldingLibraries();
-            SubsidiaryContent[] allSubContents = DbManager.GetAllGrammarSubsidiaryContents();
-            City[] allCities = DbManager.GetAllCities();
-            County[] allCounties = DbManager.GetAllCounties();
-            Country[] allCountries = DbManager.GetAllCountries();
-
-            foreach (Grammar grammar in allGrammarsPartiallyCompleted)
+            if (!Page.IsPostBack)
             {
-                //Rellenamos las listas
-                grammar.GrammarAuthor.Occupations = (from Occupation occ in allOccupations where grammar.GrammarAuthor.Author_id == occ.Author_id select occ).ToArray();
-                grammar.GrammarReferences = (from Reference reference in allReferences where grammar.GrammarId == reference.Grammar_id select reference).ToArray();
-                grammar.GrammarHoldingLibraries = (from Library lib in allLibraries where grammar.GrammarId == lib.Grammar_id select lib).ToArray();
-                grammar.GrammarSubsidiaryContents = (from SubsidiaryContent subc in allSubContents where grammar.GrammarId == subc.Grammar_id select subc).ToArray();
+                DataSet yearSet = DbManager.GetAllYears();
+                dropdown_year.DataSource = yearSet.Tables[0];
+                dropdown_year.DataValueField = "YearP";
+                dropdown_year.DataTextField = "YearP";
+                dropdown_year.DataBind();
 
-                //Nombramos los paises, ciudades y provincias
-                grammar.GrammarAuthor.City_name = (from City city in allCities where grammar.GrammarAuthor.City_id == city.City_id select city.City_name).First();
-                grammar.GrammarImprint.City_name = (from City city in allCities where grammar.GrammarImprint.City_id == city.City_id select city.City_name).First();
-
-                grammar.GrammarAuthor.County_name = (from County county in allCounties where grammar.GrammarAuthor.County_id == county.County_id select county.County_name).First();
-                grammar.GrammarImprint.County_name = (from County county in allCounties where grammar.GrammarImprint.County_id == county.County_id select county.County_name).First();
-
-                grammar.GrammarAuthor.Country_name = (from Country country in allCountries where grammar.GrammarAuthor.Country_id == country.Country_id select country.Country_name).First();
-                grammar.GrammarImprint.Country_name = (from Country country in allCountries where grammar.GrammarImprint.Country_id == country.Country_id select country.Country_name).First();
+                table_allGrammars.DataSource = dataInstance.AllGrammars;
+                table_allGrammars.DataBind();
             }
-
-
-            sw.Stop(); // Detener la medición.
-            Debug.WriteLine("Time elapsed: {0}", sw.Elapsed.ToString("hh\\:mm\\:ss\\.fff")); 
-
-            grammars = DbManager.GetAllGrammarsLite();
-
-            sw.Restart(); // Iniciar la medición.
-
-            ArrayList allGrammarsCompleted = DbManager.GetAllGrammars();
-
-            sw.Stop(); // Detener la medición.
-            Debug.WriteLine("Time elapsed: {0}", sw.Elapsed.ToString("hh\\:mm\\:ss\\.fff")); 
-
-            if (Page.IsPostBack)
-            {
-                return;
-            }
-
-            DataSet yearSet = DbManager.GetAllYears();
-            dropdown_year.DataSource = yearSet.Tables[0];
-            dropdown_year.DataValueField = "YearP";
-            dropdown_year.DataTextField = "YearP";
-            dropdown_year.DataBind();
         }
 
         protected void table_AllGrammars_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -79,10 +36,7 @@ namespace ECEG_Migration
             {
                 try
                 {
-                    e.Row.Cells[3].Text = Truncate(e.Row.Cells[3].Text, 100);
-                    //Grammar grammar = new Grammar(e.Row.Cells[0].Text);
-                    //grammar.GrammarPublicationYear = e.Row.Cells[1].Text;
-                    //grammars.Add(grammar);
+                    e.Row.Cells[2].Text = Truncate(e.Row.Cells[2].Text, 100);
 
                     Debug.WriteLine(e.Row.Cells[0].Text);
                 }
@@ -103,12 +57,9 @@ namespace ECEG_Migration
         {
             if (e.CommandName != "Select") return;
 
-            ArrayList pepe = (ArrayList)Session["arraylist"];
-
             int rowIndex = Convert.ToInt32(e.CommandArgument);
-            int grammarIndex = Convert.ToInt32(table_AllGrammars.Rows[rowIndex].Cells[0].Text);
-            string[] search_ids = (from Grammar grammar in grammars select grammar.GrammarId.ToString()).ToArray();
-            Session["last_search_ids"] = search_ids;
+            int grammarIndex = Convert.ToInt32(table_allGrammars.Rows[rowIndex].Cells[0].Text);
+            dataInstance.LastSelectedGrammar = (from Grammar grammar in dataInstance.LastSearchResults where grammar.GrammarId == grammarIndex select grammar).First();
             Response.Redirect("grammar.aspx?grammar=" + grammarIndex.ToString());
         }
 
@@ -117,16 +68,25 @@ namespace ECEG_Migration
             try
             {
                 string year = dropdown_year.SelectedItem.Value;
-                query_AllGrammars.SelectCommand = "SELECT Grammar as id, YearP, Edition, Title from Grammars WHERE YearP = '" + year + "'";
-                query_AllGrammars.DataBind();
-                table_AllGrammars.DataBind();
 
-                grammars = DbManager.GetAllGrammarsLite();
+                if (year != "All")
+                    dataInstance.LastSearchResults = (from Grammar grammar in dataInstance.AllGrammars where grammar.GrammarPublicationYear == year select grammar).ToList();
+                else
+                    dataInstance.LastSearchResults = dataInstance.AllGrammars;
+                table_allGrammars.DataSource = dataInstance.LastSearchResults;
+                table_allGrammars.DataBind();
             }
             catch (Exception ex)
             {
                 string mensaje = ex.Message;
             }
+        }
+
+        protected void table_allGrammars_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            table_allGrammars.DataSource = dataInstance.LastSearchResults;
+            table_allGrammars.PageIndex = e.NewPageIndex;
+            table_allGrammars.DataBind();
         }
     }
 }

@@ -58,3 +58,15 @@ textarea {
     font-size: 4em;
     font-weight: bold;
 }
+
+.custom-fab {
+    position: fixed !important;
+    bottom: 5%;
+    right: 3%;
+    height: 4em;
+    width: 4em;
+    border-radius: 50% !important;
+    display:flex !important;
+    justify-content:center;
+    align-items:center;
+}

@@ -22,7 +22,7 @@ namespace ECEG_Migration.Models
         private string grammarCommments;
         private string grammarPublicationYear;
         private string grammarTitle;
-        private int grammarEdition;
+        private Edition[] grammarEditions;
         public int GrammarId { get => grammarId; set => grammarId = value; }
         public Author GrammarAuthor { get => grammarAuthor; set => grammarAuthor = value; }
         public Imprint GrammarImprint { get => grammarImprint; set => grammarImprint = value; }
@@ -37,8 +37,8 @@ namespace ECEG_Migration.Models
         public TargetAudience GrammarTargetSP { get => grammarTargetSP; set => grammarTargetSP = value; }
         public string GrammarCommments { get => grammarCommments; set => grammarCommments = value; }
         public string GrammarPublicationYear { get => grammarPublicationYear; set => grammarPublicationYear = value; }
-        public int GrammarEdition { get => grammarEdition; set => grammarEdition = value; }
         public string GrammarTitle { get => grammarTitle; set => grammarTitle = value; }
+        public Edition[] GrammarEditions { get => grammarEditions; set => grammarEditions = value; }
 
         public Grammar(string grammarId)
         {

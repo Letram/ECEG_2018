@@ -40,21 +40,12 @@ namespace ECEG_Migration {
         protected global::System.Web.UI.WebControls.DropDownList dropdown_year;
         
         /// <summary>
-        /// Control query_AllGrammars.
+        /// Control table_allGrammars.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.AccessDataSource query_AllGrammars;
-        
-        /// <summary>
-        /// Control table_AllGrammars.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView table_AllGrammars;
+        protected global::System.Web.UI.WebControls.GridView table_allGrammars;
     }
 }

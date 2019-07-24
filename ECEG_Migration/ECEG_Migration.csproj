@@ -148,6 +148,12 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bubbly_button.css">
+      <DependentUpon>bubbly_button.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\bubbly_button.min.css">
+      <DependentUpon>bubbly_button.css</DependentUpon>
+    </Content>
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -496,6 +502,11 @@
     <Content Include="Plugins\bootstrap-select-1.13.9\README.md" />
     <Content Include="Plugins\bootstrap-select-1.13.9\sass\bootstrap-select.scss" />
     <Content Include="Plugins\bootstrap-select-1.13.9\sass\variables.scss" />
+    <Content Include="Content\bubbly_button.scss" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -543,6 +554,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Data.cs" />
     <Compile Include="DbManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -556,6 +568,7 @@
     </Compile>
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\City.cs" />
+    <Compile Include="Models\Edition.cs" />
     <Compile Include="Models\Grammar.cs" />
     <Compile Include="Models\TargetAudience.cs" />
     <Compile Include="Models\SubsidiaryContent.cs" />

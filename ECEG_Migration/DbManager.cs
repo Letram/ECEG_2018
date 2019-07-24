@@ -276,6 +276,34 @@ namespace ECEG_Migration
             return (SubsidiaryContent[])subContents.ToArray(typeof(SubsidiaryContent));
         }
 
+        public static Edition[] GetAllGrammarEditions()
+        {
+            ArrayList editions = new ArrayList();
+
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                OleDbCommand storedProcedure = new OleDbCommand("GetAllGrammarEditions", connection);
+                storedProcedure.CommandType = CommandType.StoredProcedure;
+
+                OleDbDataReader reader = storedProcedure.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Edition edition = new Edition();
+                    edition.Edition_year = reader["Edition_Year"].ToString();
+                    edition.Description = reader["description"] == DBNull.Value ? "n/a" : reader["description"].ToString();
+                    edition.Printing_place = reader["printing_place"] == DBNull.Value ? "unknown" : reader["printing_place"].ToString();
+                    edition.Grammar_id = Convert.ToInt32(reader["Grammar"]);
+                    edition.Edition_number = reader["edition_number"] == DBNull.Value ? -1 : Convert.ToInt32(reader["edition_number"]);
+
+                    editions.Add(edition);
+                }
+            }
+
+            return (Edition[])editions.ToArray(typeof(Edition));
+        }
         internal static ArrayList GetAllGrammars()
         {
             ArrayList grammars = new ArrayList();
@@ -346,7 +374,6 @@ namespace ECEG_Migration
                     grammarAux.GrammarId = Convert.ToInt32(reader["Grammar"]);
                     grammarAux.GrammarPublicationYear = reader["YearP"].ToString();
                     grammarAux.GrammarTitle = reader["Title"].ToString();
-                    grammarAux.GrammarEdition = Convert.ToInt32(reader["Edition"]);
 
                     grammars.Add(grammarAux);
                 }
@@ -506,7 +533,6 @@ namespace ECEG_Migration
             {
                 connection.Open();
                 
-                //OleDbCommand query = new OleDbCommand("SELECT * FROM Grammars WHERE Grammar = ?", connection);
                 OleDbCommand query = new OleDbCommand("SELECT Grammars.*, City as city_name, County as county_name, Country as country_name FROM Grammars, Cities c, Counties co, Country cr WHERE Grammar = ? and Grammars.city_id = c.City_id and Grammars.county_id = co.County_Id and Grammars.country_id = cr.Country_Id", connection);
                 var queryParam = query.CreateParameter();
                 queryParam.Value = grammarId.ToString();

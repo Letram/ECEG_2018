@@ -40,6 +40,8 @@
             <asp:TableCell></asp:TableCell>
         </asp:TableRow>
     </asp:Table>
+    <p class="h3">EDITIONS</p>
+    <asp:Table runat="server" ID="table_editions" CssClass="table"></asp:Table>
     <p class="h3">SUBSIDIARY CONTENT</p>
     <asp:Table runat="server" ID="table_sub_content" CssClass="table"></asp:Table>
     <p class="h3">AUDIENCE CRITERIA</p>
@@ -65,4 +67,7 @@
         </button>
     </div>
     
+    <div class="top-button bubbly-button custom-fab">
+        <i class="fas fa-chevron-up"></i>
+    </div>
 </asp:Content>
