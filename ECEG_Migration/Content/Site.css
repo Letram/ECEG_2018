@@ -63,10 +63,25 @@ textarea {
     position: fixed !important;
     bottom: 5%;
     right: 3%;
+    bottom: 50px;
+    right: 50px;
     height: 4em;
     width: 4em;
     border-radius: 50% !important;
     display:flex !important;
     justify-content:center;
     align-items:center;
+}
+
+.custom-fab .fas {
+    transition: 0s !important;
+}
+
+.bubbly-button {
+    opacity: 0;
+    transition: .5s !important;
+}
+
+.bubbly-button:hover {
+    background: pink;
 }

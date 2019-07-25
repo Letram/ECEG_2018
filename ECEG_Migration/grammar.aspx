@@ -66,8 +66,4 @@
             <i class="fas fa-chevron-right fa-9x"></i>
         </button>
     </div>
-    
-    <div class="top-button bubbly-button custom-fab">
-        <i class="fas fa-chevron-up"></i>
-    </div>
 </asp:Content>
