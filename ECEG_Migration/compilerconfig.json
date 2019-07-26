@@ -2,5 +2,9 @@
   {
     "outputFile": "Content/bubbly_button.css",
     "inputFile": "Content/bubbly_button.scss"
+  },
+  {
+    "outputFile": "Plugins/bootstrap-multiselect-master/dist/less/bootstrap-multiselect.css",
+    "inputFile": "Plugins/bootstrap-multiselect-master/dist/less/bootstrap-multiselect.less"
   }
 ]

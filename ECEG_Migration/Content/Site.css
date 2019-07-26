@@ -85,3 +85,19 @@ textarea {
 .bubbly-button:hover {
     background: pink;
 }
+
+.custom-input{
+    display:flex;
+    flex:auto;
+    max-width: 100% !important
+}
+
+.m-lateral {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.fix-size{
+    width:auto;
+    height:auto;
+}

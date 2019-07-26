@@ -49,6 +49,33 @@ namespace ECEG_Migration {
         protected global::System.Web.UI.WebControls.DropDownList dropdown_editions;
         
         /// <summary>
+        /// Control input_title.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox input_title;
+        
+        /// <summary>
+        /// Control bnt_title.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button bnt_title;
+        
+        /// <summary>
+        /// Control label_results.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label label_results;
+        
+        /// <summary>
         /// Control table_allGrammars.
         /// </summary>
         /// <remarks>

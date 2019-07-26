@@ -57,5 +57,29 @@ namespace ECEG_Migration.Models
         public Grammar()
         {
         }
+        public Grammar CustomClone()
+        {
+            Grammar g = new Grammar();
+
+            g.grammarId = this.grammarId;
+            g.grammarAuthor = this.grammarAuthor;
+            g.grammarImprint = this.grammarImprint;
+            g.grammarReferences = this.grammarReferences;
+            g.grammarHoldingLibraries = this.grammarHoldingLibraries;
+            g.grammarTypeOfWork = this.grammarTypeOfWork;
+            g.grammarDivision = this.grammarDivision;
+            g.grammarSubsidiaryContents = this.grammarSubsidiaryContents;
+            g.grammarTargetAge = this.grammarTargetAge;
+            g.grammarTargetGender = this.grammarTargetGender;
+            g.grammarTargetInstruction = this.grammarTargetInstruction;
+            g.grammarTargetSP = this.grammarTargetSP;
+            g.grammarCommments = this.grammarCommments;
+            g.grammarPublicationYear = this.grammarPublicationYear;
+            g.grammarTitle = this.grammarTitle;
+            g.grammarEditions = this.grammarEditions;
+
+            return g;
+        }
     }
+
 }

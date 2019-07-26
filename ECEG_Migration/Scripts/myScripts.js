@@ -1,13 +1,4 @@
-﻿// Usuarios » Row Command (Select)
-$(document).on("click", ".all_grammar_table tr:not(:first-child)", function () {
-
-    var indiceFila = $(this).index();
-    console.log({ index: indiceFila })
-    //javascript: __doPostBack('ctl00$MainContent$TablaUsuarios', 'Select$' + (indiceFila - 1));
-
-});
-
-var animateButton = function (e) {
+﻿var animateButton = function (e) {
 
     e.preventDefault;
     //reset animation
@@ -48,4 +39,3 @@ showTopButton();
     $(".top-button").click(() => {
         $("html, body").animate({ scrollTop: 0 }, 250);
     })
-
