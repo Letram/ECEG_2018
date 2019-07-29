@@ -114,6 +114,7 @@ namespace ECEG_Migration
                     grammar.GrammarPublicationYear = reader["YearP"].ToString();
                     grammar.GrammarTitle = reader["Title"].ToString();
                     grammar.GrammarAuthor = grammarAuthor;
+                    grammar.GrammarFirstEdition = Convert.ToInt32(reader["Edition"]);
 
                     Imprint grammarImprint = new Imprint();
                     grammarImprint.Grammar_id = grammar.GrammarId;

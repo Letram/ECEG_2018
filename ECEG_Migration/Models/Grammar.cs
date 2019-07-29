@@ -23,6 +23,7 @@ namespace ECEG_Migration.Models
         private string grammarPublicationYear;
         private string grammarTitle;
         private Edition[] grammarEditions;
+        private int grammarFirstEdition;
         public int GrammarId { get => grammarId; set => grammarId = value; }
         public Author GrammarAuthor { get => grammarAuthor; set => grammarAuthor = value; }
         public Imprint GrammarImprint { get => grammarImprint; set => grammarImprint = value; }
@@ -39,6 +40,7 @@ namespace ECEG_Migration.Models
         public string GrammarPublicationYear { get => grammarPublicationYear; set => grammarPublicationYear = value; }
         public string GrammarTitle { get => grammarTitle; set => grammarTitle = value; }
         public Edition[] GrammarEditions { get => grammarEditions; set => grammarEditions = value; }
+        public int GrammarFirstEdition { get => grammarFirstEdition; set => grammarFirstEdition = value; }
 
         public Grammar(string grammarId)
         {
@@ -59,25 +61,26 @@ namespace ECEG_Migration.Models
         }
         public Grammar CustomClone()
         {
-            Grammar g = new Grammar();
-
-            g.grammarId = this.grammarId;
-            g.grammarAuthor = this.grammarAuthor;
-            g.grammarImprint = this.grammarImprint;
-            g.grammarReferences = this.grammarReferences;
-            g.grammarHoldingLibraries = this.grammarHoldingLibraries;
-            g.grammarTypeOfWork = this.grammarTypeOfWork;
-            g.grammarDivision = this.grammarDivision;
-            g.grammarSubsidiaryContents = this.grammarSubsidiaryContents;
-            g.grammarTargetAge = this.grammarTargetAge;
-            g.grammarTargetGender = this.grammarTargetGender;
-            g.grammarTargetInstruction = this.grammarTargetInstruction;
-            g.grammarTargetSP = this.grammarTargetSP;
-            g.grammarCommments = this.grammarCommments;
-            g.grammarPublicationYear = this.grammarPublicationYear;
-            g.grammarTitle = this.grammarTitle;
-            g.grammarEditions = this.grammarEditions;
-
+            Grammar g = new Grammar
+            {
+                grammarId = this.grammarId,
+                grammarAuthor = this.grammarAuthor,
+                grammarImprint = this.grammarImprint,
+                grammarReferences = this.grammarReferences,
+                grammarHoldingLibraries = this.grammarHoldingLibraries,
+                grammarTypeOfWork = this.grammarTypeOfWork,
+                grammarDivision = this.grammarDivision,
+                grammarSubsidiaryContents = this.grammarSubsidiaryContents,
+                grammarTargetAge = this.grammarTargetAge,
+                grammarTargetGender = this.grammarTargetGender,
+                grammarTargetInstruction = this.grammarTargetInstruction,
+                grammarTargetSP = this.grammarTargetSP,
+                grammarCommments = this.grammarCommments,
+                grammarPublicationYear = this.grammarPublicationYear,
+                grammarTitle = this.grammarTitle,
+                grammarEditions = this.grammarEditions,
+                grammarFirstEdition = this.grammarFirstEdition
+            };
             return g;
         }
     }

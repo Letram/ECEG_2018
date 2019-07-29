@@ -76,14 +76,6 @@ namespace ECEG_Migration
             Response.Redirect("grammar.aspx?grammar=" + grammarIndex.ToString());
         }
 
-        protected void dropdown_year_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (dropdown_year.SelectedValue != "All") mainFilter[0] = 1;
-            else mainFilter[0] = 0;
-            ViewState["mainFilter"] = mainFilter;
-            filter();
-        }
-
         protected void table_allGrammars_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             table_allGrammars.DataSource = dataInstance.LastSearchResults;
@@ -91,9 +83,21 @@ namespace ECEG_Migration
             table_allGrammars.DataBind();
         }
 
+        protected void dropdown_year_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterClientScriptBlock(update_year_dropdown_panel, typeof(UpdatePanel), update_year_dropdown_panel.ClientID, "enableBootstrapSelect();", true);
+
+            if (dropdown_year.SelectedIndex != -1) mainFilter[0] = 1;
+            else mainFilter[0] = 0;
+            ViewState["mainFilter"] = mainFilter;
+            filter();
+        }
+
         protected void dropdown_editions_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (dropdown_editions.SelectedValue != "Any") mainFilter[1] = 1;
+            ScriptManager.RegisterClientScriptBlock(update_year_dropdown_panel, typeof(UpdatePanel), update_year_dropdown_panel.ClientID, "enableBootstrapSelect();", true);
+
+            if (dropdown_editions.SelectedIndex != -1) mainFilter[1] = 1;
             else mainFilter[1] = 0;
             ViewState["mainFilter"] = mainFilter;
             filter();
@@ -114,8 +118,8 @@ namespace ECEG_Migration
             if (mainFilter.Contains(1))
             {
                 //any of the main filter has been triggered (year, edition or title)
-                filterYear(dropdown_year.SelectedValue);
-                filterEdition(dropdown_editions.SelectedValue);
+                filterYear(dropdown_year.Items);
+                filterEdition(dropdown_editions.Items);
                 filterTitle(input_title.Text);
             }
             else
@@ -128,24 +132,30 @@ namespace ECEG_Migration
 
             label_results.Text = String.Format("Showing {0} results out of {1} grammars", dataInstance.LastSearchResults.Count, dataInstance.AllGrammars.Count);
         }
-        private void filterYear(string selectedValue)
+
+        private void filterYear(ListItemCollection items)
         {
             if (mainFilter[0] == 1)
             {
                 try
                 {
-                    string year = selectedValue;
+                    List<String> years = new List<string>();
+                    foreach (ListItem item in items)
+                    {
+                        if (item.Selected)
+                            years.Add(item.Value);
+                    }
 
                     dataInstance.LastSearchResults = (
                         from Grammar grammar in dataInstance.LastSearchResults
-                        where grammar.GrammarPublicationYear == year
+                        where years.Contains(grammar.GrammarPublicationYear)
                         select grammar)
                         .ToList();
                     table_allGrammars.DataSource = dataInstance.LastSearchResults;
                     table_allGrammars.DataBind();
 
                     //SetEditionDropdown();
-                    MarkAvailableEditions();
+                    //MarkAvailableEditions();
                 }
                 catch (Exception ex)
                 {
@@ -153,33 +163,29 @@ namespace ECEG_Migration
                 }
             }
         }
-        private void filterEdition(string selectedValue)
+
+        private void filterEdition(ListItemCollection items)
         {
             if (mainFilter[1] == 1)
             {
                 try
                 {
-                    string edition = selectedValue;
-
-                    if (edition == "N/A") edition = "-1";
-                    //al final de esto nada xDD TENEMOS QUE FILTRAR POR LA PRIMERA EDICION, ES LA COLUMNA EDITION DE LA TABLA GRAMMARS
-                    //if(mainFilter[0] == 1)
-                    //    dataInstance.LastSearchResults = (
-                    //        from Grammar g in dataInstance.LastSearchResults
-                    //        where g.GrammarEditions.Select(ed => new { ed.Edition_number, ed.Edition_year }).Where(tuple => tuple.Edition_year == dropdown_year.SelectedValue).Select(tuple => Convert.ToInt32(tuple.Edition_number)).Contains(Convert.ToInt32(edition))
-                    //        select g)
-                    //        .ToList();
-                    //else
-                        dataInstance.LastSearchResults = (
-                            from Grammar g in dataInstance.LastSearchResults
-                            where g.GrammarEditions.Select(ed => ed.Edition_number).Contains(Convert.ToInt32(edition))
-                            select g)
-                            .ToList();
+                    List<int> editions = new List<int>();
+                    foreach (ListItem item in items)
+                    {
+                        if (item.Selected)
+                            editions.Add(Convert.ToInt32(item.Value));
+                    }
+                    dataInstance.LastSearchResults = (
+                        from Grammar g in dataInstance.LastSearchResults
+                        where editions.Contains(g.GrammarFirstEdition)
+                        select g)
+                        .ToList();
                     table_allGrammars.DataSource = dataInstance.LastSearchResults;
                     table_allGrammars.DataBind();
 
                     //SetYearDropdown();
-                    MarkAvailableYears();
+                    //MarkAvailableYears();
                 }
                 catch (Exception ex)
                 {
@@ -189,7 +195,7 @@ namespace ECEG_Migration
         }
         private void filterTitle(string writtenValue)
         {
-            if(mainFilter[2] == 1)
+            if (mainFilter[2] == 1)
             {
                 try
                 {
@@ -205,7 +211,7 @@ namespace ECEG_Migration
                     //highlight searched words. in order to do that we need a deep copy of the list so we are not modifying the original
                     var formattedGrammars = new List<Grammar>();
 
-                    foreach(Grammar g in dataInstance.LastSearchResults)
+                    foreach (Grammar g in dataInstance.LastSearchResults)
                     {
                         formattedGrammars.Add(g.CustomClone());
                     }
@@ -216,7 +222,7 @@ namespace ECEG_Migration
                         return grammar;
                     }).ToList();
                     table_allGrammars.DataBind();
-                    
+
                     MarkAvailableYears();
                     MarkAvailableEditions();
                 }
@@ -245,23 +251,14 @@ namespace ECEG_Migration
 
         private void MarkAvailableEditions()
         {
-            //edition is a list of lists since each grammar has a list of editions
             var editions = (from Grammar grammar in dataInstance.LastSearchResults
-                            select grammar.GrammarEditions.Select(ed => ed.Edition_number))
-                            .ToList();
-            //merging all lists into one and clamping their values.
-            List<int> allEditions = editions
-                .SelectMany(list => list)
-                .Distinct()
-                .ToList();
-            allEditions.Sort();
+                            select grammar.GrammarFirstEdition).Distinct().ToList();
+            editions.Sort();
 
-            List<String> allResultEditions = allEditions.Select(edN => edN == -1 ? "N/A" : edN.ToString()).ToList();
 
             foreach (ListItem item in dropdown_editions.Items)
             {
-                if (item.Value == "Any") continue;
-                if (allResultEditions.IndexOf(item.Value) == -1)
+                if (editions.IndexOf(Convert.ToInt32(item.Value)) == -1)
                     item.Attributes["disabled"] = "disabled";
                 else
                     item.Attributes.Remove("disabled");
@@ -272,9 +269,8 @@ namespace ECEG_Migration
         {
             List<string> allResultYears = (from Grammar g in dataInstance.LastSearchResults select g.GrammarPublicationYear).ToList();
 
-            foreach(ListItem item in dropdown_year.Items)
+            foreach (ListItem item in dropdown_year.Items)
             {
-                if (item.Value == "All") continue;
                 if (allResultYears.IndexOf(item.Value) == -1)
                     item.Attributes["disabled"] = "disabled";
                 else
@@ -286,17 +282,9 @@ namespace ECEG_Migration
         {
             //edition is a list of lists since each grammar has a list of editions
             var editions = (from Grammar grammar in dataInstance.AllGrammars
-                            select grammar.GrammarEditions.Select(ed => ed.Edition_number))
-                            .ToList();
-            //merging all lists into one and clamping their values.
-            List<int> allEditions = editions
-                .SelectMany(list => list)
-                .Distinct()
-                .ToList();
-            allEditions.Sort();
-
-            List<String> allEditionsForDropdown = allEditions.Select(edN => edN == -1 ? "N/A" : edN.ToString()).ToList();
-            dropdown_editions.DataSource = allEditionsForDropdown;
+                            select grammar.GrammarFirstEdition).Distinct().ToList();
+            editions.Sort();
+            dropdown_editions.DataSource = editions;
             dropdown_editions.DataBind();
         }
     }

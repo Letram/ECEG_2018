@@ -37,7 +37,7 @@ namespace ECEG_Migration {
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList dropdown_year;
+        protected global::System.Web.UI.WebControls.ListBox dropdown_year;
         
         /// <summary>
         /// Control dropdown_editions.
@@ -46,7 +46,7 @@ namespace ECEG_Migration {
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList dropdown_editions;
+        protected global::System.Web.UI.WebControls.ListBox dropdown_editions;
         
         /// <summary>
         /// Control input_title.

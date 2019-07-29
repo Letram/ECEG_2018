@@ -1,4 +1,10 @@
-﻿var animateButton = function (e) {
+﻿function enableBootstrapSelect() {
+    $(".multi").selectpicker();
+}
+
+enableBootstrapSelect();
+
+var animateButton = function (e) {
 
     e.preventDefault;
     //reset animation
