@@ -22,13 +22,22 @@ namespace ECEG_Migration {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl grammar_title;
         
         /// <summary>
-        /// Control table_author.
+        /// Control written_by.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table table_author;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl written_by;
+        
+        /// <summary>
+        /// Control author_pob.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl author_pob;
         
         /// <summary>
         /// Control table_occupation.
@@ -40,13 +49,67 @@ namespace ECEG_Migration {
         protected global::System.Web.UI.WebControls.Table table_occupation;
         
         /// <summary>
-        /// Control table_imprint.
+        /// Control author_bio.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table table_imprint;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl author_bio;
+        
+        /// <summary>
+        /// Control printed_in.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl printed_in;
+        
+        /// <summary>
+        /// Control printed_by.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl printed_by;
+        
+        /// <summary>
+        /// Control sold_by.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl sold_by;
+        
+        /// <summary>
+        /// Control price.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl price;
+        
+        /// <summary>
+        /// Control imprint_description.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl imprint_description;
+        
+        /// <summary>
+        /// Control table_editions.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table table_editions;
         
         /// <summary>
         /// Control table_references.
@@ -74,15 +137,6 @@ namespace ECEG_Migration {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Table table_work_types;
-        
-        /// <summary>
-        /// Control table_editions.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Table table_editions;
         
         /// <summary>
         /// Control table_sub_content.

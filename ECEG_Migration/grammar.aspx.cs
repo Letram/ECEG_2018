@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 namespace ECEG_Migration
@@ -15,15 +16,12 @@ namespace ECEG_Migration
     public partial class grammar : System.Web.UI.Page
     {
         private Data dataInstance = Data.GetInstance();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
-                try
-                {
-                    Session["grammar_id"] = Request.QueryString["grammar"];
-                }
-                catch (Exception)
+                if (Request.QueryString["grammar"] == null)
                 {
                     Response.Redirect("/");
                 }
@@ -31,18 +29,15 @@ namespace ECEG_Migration
 
                 Grammar grammar = dataInstance.LastSelectedGrammar;
                 grammar_title.InnerText = grammar.GrammarTitle;
+
                 //Debug.WriteLine(new JavaScriptSerializer().Serialize(grammar));
 
                 Author au = grammar.GrammarAuthor;
 
-                table_author.Rows[0].Cells[0].Text = au.Name;
-                table_author.Rows[0].Cells[1].Text = au.Gender;
-                table_author.Rows[0].Cells[2].Text = au.Biographical_details;
-                table_author.Rows[0].Cells[3].Text = au.City_name;
-                table_author.Rows[0].Cells[4].Text = au.County_name;
-                table_author.Rows[0].Cells[5].Text = au.Country_name;
+                written_by.InnerHtml = "Written by <b>" + au.Name + "</b>, " + au.Gender;
+                author_pob.InnerHtml = "Born in " + String.Format("{0}, {1}, {2}", au.City_name, au.County_name, au.Country_name);
 
-                foreach(Occupation authorOcc in au.Occupations)
+                foreach (Occupation authorOcc in au.Occupations)
                 {
                     TableRow row = new TableRow();
                     TableCell topic_cell = new TableCell();
@@ -56,14 +51,15 @@ namespace ECEG_Migration
                     table_occupation.Rows.Add(row);
                 }
 
+                author_bio.InnerHtml = au.Biographical_details;
+
                 Imprint im = grammar.GrammarImprint;
 
-                table_imprint.Rows[0].Cells[0].Text = im.City_name;
-                table_imprint.Rows[0].Cells[1].Text = im.County_name;
-                table_imprint.Rows[0].Cells[2].Text = im.Country_name;
-                table_imprint.Rows[0].Cells[3].Text = im.Printers;
-                table_imprint.Rows[0].Cells[4].Text = im.Booksellers;
-                table_imprint.Rows[0].Cells[5].Text = im.Description;
+                printed_in.InnerText = "Printed in " + im.City_name + ", " + im.County_name + ", " + im.Country_name;
+                printed_by.InnerText = im.Printers;
+                sold_by.InnerText = im.Booksellers;
+                price.InnerText = im.Price;
+                imprint_description.InnerText = im.Description;
 
                 Reference[] references = grammar.GrammarReferences;
 
@@ -108,9 +104,29 @@ namespace ECEG_Migration
 
                 Edition[] editions = grammar.GrammarEditions;
 
+                TableRow editionsHeader = new TableRow();
+                editionsHeader.TableSection = TableRowSection.TableHeader;
+
+                TableCell yearCell = new TableCell();
+                TableCell editionCell = new TableCell();
+                TableCell placeCell = new TableCell();
+                TableCell descriptionCell = new TableCell();
+                yearCell.Text = "Year";
+                editionCell.Text = "Edition";
+                placeCell.Text = "Place";
+                descriptionCell.Text = "Description";
+
+                editionsHeader.Cells.Add(yearCell);
+                editionsHeader.Cells.Add(editionCell);
+                editionsHeader.Cells.Add(placeCell);
+                editionsHeader.Cells.Add(descriptionCell);
+
+                table_editions.Rows.Add(editionsHeader);
                 foreach (Edition ed in editions)
                 {
                     TableRow row = new TableRow();
+                    row.TableSection = TableRowSection.TableBody;
+
                     TableCell edition_year_cell = new TableCell();
                     TableCell edition_number_cell = new TableCell();
                     TableCell edition_place_cell = new TableCell();
@@ -128,7 +144,6 @@ namespace ECEG_Migration
 
                     table_editions.Rows.Add(row);
                 }
-
                 SubsidiaryContent[] subsidiaryContents = grammar.GrammarSubsidiaryContents;
 
                 foreach (SubsidiaryContent content in subsidiaryContents)
@@ -157,18 +172,18 @@ namespace ECEG_Migration
 
                 grammar_page_counter.InnerText = (dataInstance.LastSearchResults.IndexOf(dataInstance.LastSelectedGrammar) + 1) + " of " + (dataInstance.LastSearchResults.Count);
                 checkPosition(dataInstance.LastSearchResults.IndexOf(dataInstance.LastSelectedGrammar), dataInstance.LastSearchResults);
-                
+
             }
         }
 
         private void checkPosition(int v, List<Grammar> arr)
         {
-            if(v == 0)
+            if (v == 0)
                 btn_prev.Visible = false;
             else
                 btn_prev.Visible = true;
 
-            if(v == arr.Count - 1)
+            if (v == arr.Count - 1)
                 btn_forw.Visible = false;
             else
                 btn_forw.Visible = true;

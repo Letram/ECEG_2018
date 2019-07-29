@@ -101,3 +101,15 @@ textarea {
     width:auto;
     height:auto;
 }
+
+.flex{
+    display:flex;
+}
+.visible_onstart{
+    display:block;
+    cursor:pointer;
+}
+.hide_onstart{
+    display:none;
+    cursor:pointer;
+}

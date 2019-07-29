@@ -122,9 +122,9 @@ namespace ECEG_Migration
                     grammarImprint.County_id = Convert.ToInt32(reader["Grammars.county_id"]);
                     grammarImprint.City_id = Convert.ToInt32(reader["Grammars.city_id"]);
                     grammarImprint.Printers = reader["Printers"].ToString();
-                    grammarImprint.Printers = reader["BookSellers"].ToString();
-                    grammarImprint.Printers = reader["Price"].ToString();
-                    grammarImprint.Printers = reader["Physical_Description"].ToString();
+                    grammarImprint.Booksellers = reader["BookSellers"].ToString();
+                    grammarImprint.Price = reader["Price"].ToString();
+                    grammarImprint.Description = reader["Physical_Description"].ToString();
 
                     grammar.GrammarImprint = grammarImprint;
 

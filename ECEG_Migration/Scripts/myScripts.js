@@ -1,4 +1,15 @@
-﻿function enableBootstrapSelect() {
+﻿$(document).ready(function () {
+    $(".visible_onstart").on("click", function (event) {
+        $(".hide_onstart").toggle(250);
+        $(".visible_onstart").toggle(250);
+    });
+    $(".hide_onstart").on("click", function (event) {
+        $(".visible_onstart").toggle(250);
+        $(".hide_onstart").toggle(250);
+    });
+});
+
+function enableBootstrapSelect() {
     $(".multi").selectpicker();
 }
 
@@ -45,3 +56,5 @@ showTopButton();
     $(".top-button").click(() => {
         $("html, body").animate({ scrollTop: 0 }, 250);
     })
+
+/***************************************************************************************************/
