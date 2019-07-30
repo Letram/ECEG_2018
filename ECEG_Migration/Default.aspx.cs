@@ -21,6 +21,8 @@ namespace ECEG_Migration
         private int[] mainFilter = new int[] { 0, 0, 0 };
         protected void Page_Load(object sender, EventArgs e)
         {
+            ScriptManager.RegisterClientScriptBlock(update_year_dropdown_panel, typeof(UpdatePanel), update_year_dropdown_panel.ClientID, "enableBootstrapSelect();", true);
+
             if (!Page.IsPostBack)
             {
 
@@ -85,8 +87,6 @@ namespace ECEG_Migration
 
         protected void dropdown_year_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ScriptManager.RegisterClientScriptBlock(update_year_dropdown_panel, typeof(UpdatePanel), update_year_dropdown_panel.ClientID, "enableBootstrapSelect();", true);
-
             if (dropdown_year.SelectedIndex != -1) mainFilter[0] = 1;
             else mainFilter[0] = 0;
             ViewState["mainFilter"] = mainFilter;
@@ -95,8 +95,6 @@ namespace ECEG_Migration
 
         protected void dropdown_editions_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ScriptManager.RegisterClientScriptBlock(update_year_dropdown_panel, typeof(UpdatePanel), update_year_dropdown_panel.ClientID, "enableBootstrapSelect();", true);
-
             if (dropdown_editions.SelectedIndex != -1) mainFilter[1] = 1;
             else mainFilter[1] = 0;
             ViewState["mainFilter"] = mainFilter;

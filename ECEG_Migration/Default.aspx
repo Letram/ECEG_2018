@@ -8,27 +8,18 @@
     <asp:UpdatePanel ID="update_year_dropdown_panel" runat="server">
         <ContentTemplate>
             <div class="p-2 form-inline" id="main_filter">
-                <%--                <asp:DropDownList ID="dropdown_year" runat="server" CssClass="form-control m-lateral"
-                    OnSelectedIndexChanged="dropdown_year_SelectedIndexChanged"
-                    AutoPostBack="true" AppendDataBoundItems="true">
-                    <asp:ListItem Text="All years" Value="All" Selected="True"></asp:ListItem>
-                </asp:DropDownList>--%>
                 <asp:ListBox ID="dropdown_year" runat="server" CssClass="form-control m-lateral multi"
                     SelectionMode="Multiple"
-                    AutoPostBack="true"
+                    AutoPostBack="false"
                     AppendDataBoundItems="true"
                     OnSelectedIndexChanged="dropdown_year_SelectedIndexChanged"
                     title="All years"
                     data-actions-box="true"
                     data-selected-text-format="count > 3"></asp:ListBox>
-                <%--                <asp:DropDownList ID="dropdown_editions" runat="server" CssClass="form-control m-lateral multi"
-                    OnSelectedIndexChanged="dropdown_editions_SelectedIndexChanged"
-                    AutoPostBack="true" AppendDataBoundItems="true">
-                    <asp:ListItem Text="Any edition" Value="Any" Selected="true"></asp:ListItem>
-                </asp:DropDownList>--%>
                 <asp:ListBox ID="dropdown_editions" runat="server" CssClass="form-control m-lateral multi"
                     OnSelectedIndexChanged="dropdown_editions_SelectedIndexChanged"
-                    AutoPostBack="true" AppendDataBoundItems="true"
+                    AutoPostBack="false"
+                    AppendDataBoundItems="true"
                     SelectionMode="Multiple"
                     title="All editions"
                     data-actions-box="true"
