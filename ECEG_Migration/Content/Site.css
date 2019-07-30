@@ -16,6 +16,15 @@ textarea {
     height: 445px;
     width: 894px;
 }
+#sidebar{
+    display:none;
+}
+#sidebar .nav-link.active,
+#sidebar .nav-link:hover,
+#sidebar .nav-link:focus {
+    color: #111;
+    border-bottom: 1px #000 dashed;
+}
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
@@ -29,6 +38,22 @@ textarea {
     */
 }
 
+@media screen and (min-width: 1750px) {
+    #sidebar{
+        display:block
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .jumbotron {
+        margin-top: 20px;
+    }
+    /*
+    .body-content {
+        padding: 0;
+    }
+    */
+}
 .table_allGrammars_title {
     width: 100%;
     white-space: nowrap;
@@ -112,4 +137,10 @@ textarea {
 .hide_onstart{
     display:none;
     cursor:pointer;
+}
+
+.sidebar{
+    position:fixed;
+    top:10%;
+    right:5%;
 }

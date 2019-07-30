@@ -145,16 +145,16 @@ namespace ECEG_Migration
                     grammarAgeAudience.AudienceName = reader["age_info"].ToString();
 
                     TargetAudience grammarGenderAudience = new TargetAudience();
-                    grammarAgeAudience.AudienceCriteria = Convert.ToInt32(reader["gender_id"]);
-                    grammarAgeAudience.AudienceName = reader["audience_genders.gender_info"].ToString();
+                    grammarGenderAudience.AudienceCriteria = Convert.ToInt32(reader["gender_id"]);
+                    grammarGenderAudience.AudienceName = reader["audience_genders.gender_info"].ToString();
 
                     TargetAudience grammarInstructionAudience = new TargetAudience();
-                    grammarAgeAudience.AudienceCriteria = Convert.ToInt32(reader["instruction_id"]);
-                    grammarAgeAudience.AudienceName = reader["instruction_info"].ToString();
+                    grammarInstructionAudience.AudienceCriteria = Convert.ToInt32(reader["instruction_id"]);
+                    grammarInstructionAudience.AudienceName = reader["instruction_info"].ToString();
 
                     TargetAudience grammarPurposeAudience = new TargetAudience();
-                    grammarAgeAudience.AudienceCriteria = Convert.ToInt32(reader["purpose_id"]);
-                    grammarAgeAudience.AudienceName = reader["purpose_info"].ToString();
+                    grammarPurposeAudience.AudienceCriteria = Convert.ToInt32(reader["purpose_id"]);
+                    grammarPurposeAudience.AudienceName = reader["purpose_info"].ToString();
 
                     grammar.GrammarTargetAge = grammarAgeAudience;
                     grammar.GrammarTargetGender = grammarGenderAudience;

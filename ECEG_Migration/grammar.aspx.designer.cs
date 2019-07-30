@@ -58,6 +58,42 @@ namespace ECEG_Migration {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl author_bio;
         
         /// <summary>
+        /// Control table_work_types.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table table_work_types;
+        
+        /// <summary>
+        /// Control update_panel_subs.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel update_panel_subs;
+        
+        /// <summary>
+        /// Control table_sub_content.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView table_sub_content;
+        
+        /// <summary>
+        /// Control table_audience.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table table_audience;
+        
+        /// <summary>
         /// Control printed_in.
         /// </summary>
         /// <remarks>
@@ -103,13 +139,31 @@ namespace ECEG_Migration {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl imprint_description;
         
         /// <summary>
+        /// Control update_panel_editions.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel update_panel_editions;
+        
+        /// <summary>
         /// Control table_editions.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table table_editions;
+        protected global::System.Web.UI.WebControls.GridView table_editions;
+        
+        /// <summary>
+        /// Control update_panel_references.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel update_panel_references;
         
         /// <summary>
         /// Control table_references.
@@ -118,7 +172,16 @@ namespace ECEG_Migration {
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table table_references;
+        protected global::System.Web.UI.WebControls.GridView table_references;
+        
+        /// <summary>
+        /// Control update_panel_libraries.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel update_panel_libraries;
         
         /// <summary>
         /// Control table_libraries.
@@ -127,34 +190,7 @@ namespace ECEG_Migration {
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table table_libraries;
-        
-        /// <summary>
-        /// Control table_work_types.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Table table_work_types;
-        
-        /// <summary>
-        /// Control table_sub_content.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Table table_sub_content;
-        
-        /// <summary>
-        /// Control table_audience.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Table table_audience;
+        protected global::System.Web.UI.WebControls.GridView table_libraries;
         
         /// <summary>
         /// Control label_comments.
